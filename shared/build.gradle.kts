@@ -40,6 +40,7 @@ kotlin {
             dependencies {
                 api(libs.decompose.decompose)
                 api(libs.essenty.lifecycle)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
         val commonTest by getting {
@@ -47,6 +48,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(libs.kotest.framework)
                 implementation(libs.kotest.assertion)
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
         val jvmTest by getting {

@@ -1,6 +1,5 @@
 package io.amirhparhizgar.kotask.list
 
-import io.kotest.core.extensions.Extension
 import io.kotest.core.listeners.AfterEachListener
 import io.kotest.core.listeners.BeforeEachListener
 import io.kotest.core.test.TestCase
@@ -12,7 +11,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 
 class MainDispatcherExtension(private val dispatcher: TestDispatcher = StandardTestDispatcher()) :
-    Extension, BeforeEachListener, AfterEachListener {
+    BeforeEachListener, AfterEachListener {
     override suspend fun beforeEach(testCase: TestCase) {
         Dispatchers.setMain(dispatcher)
     }

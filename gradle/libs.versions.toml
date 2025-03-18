@@ -12,7 +12,7 @@ android-targetSdk = "34"
 compose-jetbrains = "1.6.11"
 
 androidx-activityCompose = "1.9.0"
-
+kotest = "6.0.0.M2"
 decompose = "3.1.0"
 essenty = "2.1.0"
 
@@ -29,6 +29,9 @@ jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-jetbr
 [libraries]
 
 androidx-activity-activityCompose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activityCompose" }
+kotest-framework = { group = "io.kotest", name = "kotest-framework-engine", version.ref = "kotest" }
+kotest-junit = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertion = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 
 decompose-decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-extensionsComposeJetbrains = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }

@@ -45,6 +45,13 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(libs.kotest.framework)
+                implementation(libs.kotest.assertion)
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.kotest.junit)
             }
         }
     }
@@ -62,4 +69,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }

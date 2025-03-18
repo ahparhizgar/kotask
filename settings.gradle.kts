@@ -15,7 +15,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "decompose-template"
+rootProject.name = "kotask"
 include(":shared")
 include(":compose-ui")
 include(":app-android")

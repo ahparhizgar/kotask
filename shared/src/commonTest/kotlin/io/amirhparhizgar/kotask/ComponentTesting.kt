@@ -15,7 +15,7 @@ import kotlinx.coroutines.test.runTest
 fun FunSpecRootScope.testComponent(name: String, test: suspend TestComponentScope.() -> Unit) {
     val lifecycleRegistry = LifecycleRegistry()
     val c = createComponentContext(lifecycle = lifecycleRegistry)
-    test(name = name).config(coroutineTestScope = true) {
+    test(name = name) {
         val scope = DefaultTestComponentScope(lifecycleRegistry, c, this)
         with(scope) {
             runTest {

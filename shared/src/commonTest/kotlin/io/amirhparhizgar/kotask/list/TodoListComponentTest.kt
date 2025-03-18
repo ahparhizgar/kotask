@@ -11,6 +11,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 
 class TodoListComponentTest : FunSpec({
     extension(MainDispatcherExtension())
+    coroutineTestScope = true
 
     lateinit var component: DefaultTodoListComponent
     lateinit var context: ComponentContext

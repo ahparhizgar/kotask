@@ -101,6 +101,7 @@ sqldelight {
     databases {
         create("AppDatabase") {
             packageName.set("io.amirhparhizgar")
+            generateAsync = true
         }
     }
 }

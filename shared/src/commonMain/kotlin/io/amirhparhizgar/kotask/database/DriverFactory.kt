@@ -3,12 +3,11 @@ package io.amirhparhizgar.kotask.database
 import app.cash.sqldelight.db.SqlDriver
 import io.amirhparhizgar.AppDatabase
 
-expect class DriverFactory {
-    fun createDriver(): SqlDriver
+interface DriverFactory {
+    suspend fun createDriver(): SqlDriver
 }
 
-fun createDatabase(driverFactory: DriverFactory): AppDatabase {
-    val driver = driverFactory.createDriver()
-    val database = AppDatabase(driver)
+suspend fun createDatabase(driverFactory: DriverFactory): AppDatabase {
+    val database = AppDatabase(driverFactory.createDriver())
     return database
 }

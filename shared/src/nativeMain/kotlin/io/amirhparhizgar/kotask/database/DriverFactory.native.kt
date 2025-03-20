@@ -5,7 +5,7 @@ import app.cash.sqldelight.driver.native.NativeSqliteDriver
 import io.amirhparhizgar.AppDatabase
 
 actual class DriverFactory {
-    actual fun createDriver(): SqlDriver {
+    actual suspend fun createDriver(): SqlDriver {
         return NativeSqliteDriver(AppDatabase.Schema, "test.db")
     }
 }

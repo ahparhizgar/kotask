@@ -8,20 +8,18 @@ class DatabaseConnectionTest : BehaviorSpec({
     isolationMode = IsolationMode.InstancePerRoot
 
     Given("there is no db") {
-        When("initializing a db") {
-            createDatabase(DriverFactory())
-            Then("initializes successfully") { }
+        When("initializing a db, initializes successfully") {
+            createDatabase(JvmInMemoryDriverFactory())
         }
     }
 
-    // TODO crate a empty db
     Given("there is a db") {
-        val db = createDatabase(DriverFactory())
+        val db = createDatabase(JvmInMemoryDriverFactory())
         When("adding a Todo") {
             db.toDoDatabaseQueries.add("Buy milk")
             And("retrieving it") {
+                val toDo = db.toDoDatabaseQueries.select(1).executeAsOne()
                 Then("retrieves successfully") {
-                    val toDo = db.toDoDatabaseQueries.select(1).executeAsOne()
                     toDo::text shouldHaveValue "Buy milk"
                 }
             }

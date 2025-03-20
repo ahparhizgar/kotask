@@ -47,6 +47,7 @@ kotlin {
                 implementation(libs.kotest.framework)
                 implementation(libs.kotest.assertion)
                 implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.sqldelight.coroutines)
             }
         }
         val jvmTest by getting {

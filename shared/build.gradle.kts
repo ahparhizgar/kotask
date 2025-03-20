@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.ide.kmp.KotlinAndroidSourceSetMarker.Companion.android
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
@@ -58,11 +60,13 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(libs.sqldelight.sqlite)
+                implementation(libs.kotlinx.coroutines.swing)
             }
         }
         val androidMain by getting {
             dependencies {
                 implementation(libs.sqldelight.android)
+                implementation(libs.kotlinx.coroutines.android)
             }
         }
         val nativeMain by getting {

@@ -13,7 +13,7 @@ class TodoListComponentTest : FunSpec({
     extension(MainDispatcherExtension())
     coroutineTestScope = true
 
-    lateinit var component: DefaultTodoListComponent
+    lateinit var component: DefaultTaskListComponent
     lateinit var context: ComponentContext
     lateinit var lifecycleRegistry: LifecycleRegistry
     lateinit var repo: FakeTodoRepository
@@ -22,7 +22,7 @@ class TodoListComponentTest : FunSpec({
         lifecycleRegistry = LifecycleRegistry()
         repo = FakeTodoRepository()
         context = createComponentContext(lifecycle = lifecycleRegistry)
-        component = DefaultTodoListComponent(context, repo)
+        component = DefaultTaskListComponent(context, repo)
     }
 
     testComponent("creates successfully") {

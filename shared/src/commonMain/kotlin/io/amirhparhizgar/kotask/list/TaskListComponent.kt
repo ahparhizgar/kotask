@@ -13,27 +13,28 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-interface TodoListComponent {
-    val items: Value<List<Todo>>
+interface TaskListComponent {
+    val items: Value<List<Task>>
 }
 
-class DefaultTodoListComponent(
+class DefaultTaskListComponent(
     componentContext: ComponentContext,
-    private val repo: FakeTodoRepository
-) : TodoListComponent,
+    private val repo: FakeTodoRepository,
+) : TaskListComponent,
     ComponentContext by componentContext {
     private val coroutineScope = componentCoroutineScope()
-    private val _items: MutableValue<List<Todo>> = MutableValue(emptyList())
-    override val items: Value<List<Todo>> = _items
+    private val _items: MutableValue<List<Task>> = MutableValue(emptyList())
+    override val items: Value<List<Task>> = _items
 
     init {
         var job: Job? = null
         lifecycle.doOnStart {
-            job = coroutineScope.launch {
-                repo.todos.collect {
-                    _items.value = it
+            job =
+                coroutineScope.launch {
+                    repo.todos.collect {
+                        _items.value = it
+                    }
                 }
-            }
         }
         lifecycle.doOnStop { job?.cancel() }
     }

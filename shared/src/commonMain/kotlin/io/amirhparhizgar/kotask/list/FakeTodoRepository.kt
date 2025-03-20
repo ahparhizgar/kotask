@@ -4,11 +4,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 class FakeTodoRepository {
-    val todos: Flow<List<Todo>> =
+    val todos: Flow<List<Task>> =
         flowOf(
             listOf(
-                Todo(title = "Buy milk", isDone = false),
-                Todo(title = "Walk the dog", isDone = false)
+                Task(title = "Buy milk", isDone = false),
+                Task(title = "Walk the dog", isDone = false)
             )
         )
 }

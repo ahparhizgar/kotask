@@ -10,14 +10,14 @@ import com.example.myapplication.root.RootContent
 import com.example.myapplication.shared.root.DefaultRootComponent
 
 fun main() {
-
     val lifecycle = LifecycleRegistry()
 
-    val root = runOnUiThread {
-        DefaultRootComponent(
-            componentContext = DefaultComponentContext(lifecycle = lifecycle),
-        )
-    }
+    val root =
+        runOnUiThread {
+            DefaultRootComponent(
+                componentContext = DefaultComponentContext(lifecycle = lifecycle),
+            )
+        }
 
     application {
         val windowState = rememberWindowState()
@@ -27,7 +27,7 @@ fun main() {
         Window(
             onCloseRequest = ::exitApplication,
             state = windowState,
-            title = "My Application"
+            title = "My Application",
         ) {
             RootContent(root)
         }

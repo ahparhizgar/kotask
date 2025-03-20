@@ -1,14 +1,14 @@
 package io.amirhparhizgar.kotask.database
 
 import app.cash.sqldelight.db.SqlDriver
-import io.amirhparhizgar.ToDoDatabase
+import io.amirhparhizgar.AppDatabase
 
 expect class DriverFactory {
     fun createDriver(): SqlDriver
 }
 
-fun createDatabase(driverFactory: DriverFactory): ToDoDatabase {
+fun createDatabase(driverFactory: DriverFactory): AppDatabase {
     val driver = driverFactory.createDriver()
-    val database = ToDoDatabase(driver)
+    val database = AppDatabase(driver)
     return database
 }

@@ -98,7 +98,7 @@ tasks.withType<Test>().configureEach {
 
 sqldelight {
     databases {
-        create("ToDoDatabase") {
+        create("AppDatabase") {
             packageName.set("io.amirhparhizgar")
         }
     }

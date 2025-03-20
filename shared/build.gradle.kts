@@ -1,9 +1,8 @@
-@file:Suppress("DSL_SCOPE_VIOLATION")
-
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -23,8 +22,7 @@ kotlin {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
-    )
-        .takeIf { "XCODE_VERSION_MAJOR" in System.getenv().keys } // Export the framework only for Xcode builds
+    ).takeIf { "XCODE_VERSION_MAJOR" in System.getenv().keys } // Export the framework only for Xcode builds
         ?.forEach {
             // This `shared` framework is exported for app-ios-swift
             it.binaries.framework {
@@ -56,15 +54,36 @@ kotlin {
                 implementation(libs.kotest.junit)
             }
         }
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.sqldelight.sqlite)
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.sqldelight.android)
+            }
+        }
+        val nativeMain by getting {
+            dependencies {
+                implementation(libs.sqldelight.native)
+            }
+        }
     }
 }
 
 android {
     namespace = "com.example.myapplication.shared"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.compileSdk
+            .get()
+            .toInt()
 
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
     }
 
     compileOptions {
@@ -75,4 +94,12 @@ android {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+}
+
+sqldelight {
+    databases {
+        create("ToDoDatabase") {
+            packageName.set("io.amirhparhizgar")
+        }
+    }
 }

@@ -5,14 +5,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlin.random.Random
 
-class FakeTaskRepository : TaskRepository {
+class FakeTaskRepository(
+    initialTasks: List<Task> = listOf(
+        Task(id = "1", title = "Buy milk", isDone = false),
+        Task(id = "2", title = "Walk the dog", isDone = false),
+    ),
+) : TaskRepository {
     private val _tasks =
-        MutableStateFlow(
-            listOf(
-                Task(id = "1", title = "Buy milk", isDone = false),
-                Task(id = "2", title = "Walk the dog", isDone = false),
-            ),
-        )
+        MutableStateFlow(initialTasks)
 
     override val tasks: Flow<List<Task>> = _tasks.asStateFlow()
 

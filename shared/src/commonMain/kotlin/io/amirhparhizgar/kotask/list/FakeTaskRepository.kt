@@ -22,7 +22,7 @@ class FakeTaskRepository : TaskRepository {
         return id
     }
 
-    override suspend fun updateTaskIsDone(
+    override suspend fun updateDoneStatus(
         id: String,
         isDone: Boolean,
     ) {
@@ -32,4 +32,6 @@ class FakeTaskRepository : TaskRepository {
             }
         _tasks.value = updatedList
     }
+
+    override suspend fun get(id: String): Task = _tasks.value.first { it.id == id }
 }

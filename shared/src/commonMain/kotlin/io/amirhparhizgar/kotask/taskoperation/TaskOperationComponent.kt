@@ -22,6 +22,6 @@ data class DefaultTaskOperationComponent(
 
     override fun setDone(done: Boolean): Job =
         coroutineScope.launch {
-            repository.updateTaskIsDone(task.id, done)
+            repository.updateDoneStatus(task.id, done)
         }
 }

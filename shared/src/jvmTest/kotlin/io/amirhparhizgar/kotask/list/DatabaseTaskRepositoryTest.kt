@@ -15,18 +15,24 @@ class DatabaseTaskRepositoryTest : BehaviorSpec({
     isolationMode = IsolationMode.InstancePerRoot
     extensions(MainDispatcherExtension())
 
-    Given("one task in-memory db") {
+    Given("empty in-memory db") {
         val db = DatabaseFactory(JvmInMemoryDriverFactory())
         val repo = DatabaseTaskRepository(
             databaseFactory = db,
             dispatcher = coroutineContext[CoroutineDispatcher.Key]!!,
         )
-        val id = repo.addTask("Test")
-        When("setting it to done") {
-            repo.updateTaskIsDone(id, true)
-            Then("it should be done") {
-                val task = repo.tasks.first().first { it.id == id }
-                task::isDone shouldHaveValue true
+        When("adding a task") {
+            val id = repo.addTask("Test")
+            Then("it should be there") {
+                val task = repo.get(id)
+                task::id shouldHaveValue id
+            }
+            And("setting it's status to done") {
+                repo.updateDoneStatus(id = id, isDone = true)
+                Then("it should be done") {
+                    val task = repo.tasks.first().first { it.id == id }
+                    task::isDone shouldHaveValue true
+                }
             }
         }
     }

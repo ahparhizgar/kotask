@@ -7,8 +7,10 @@ interface TaskRepository {
 
     suspend fun addTask(title: String): String
 
-    suspend fun updateTaskIsDone(
+    suspend fun updateDoneStatus(
         id: String,
         isDone: Boolean,
     )
+
+    suspend fun get(id: String): Task
 }

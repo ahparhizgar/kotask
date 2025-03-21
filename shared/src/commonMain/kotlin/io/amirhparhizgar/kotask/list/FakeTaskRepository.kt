@@ -16,17 +16,19 @@ class FakeTaskRepository : TaskRepository {
 
     override val tasks: Flow<List<Task>> = _tasks.asStateFlow()
 
-    override suspend fun addTask(title: String) {
-        _tasks.value += Task(id = Random.nextInt().toString(), title = title, isDone = false)
+    override suspend fun addTask(title: String): String {
+        val id = Random.nextInt().toString()
+        _tasks.value += Task(id = id, title = title, isDone = false)
+        return id
     }
 
     override suspend fun updateTaskIsDone(
-        id: Long,
+        id: String,
         isDone: Boolean,
     ) {
         val updatedList =
             _tasks.value.mapIndexed { i, t ->
-                if (t.id == id.toString()) t.copy(isDone = isDone) else t
+                if (t.id == id) t.copy(isDone = isDone) else t
             }
         _tasks.value = updatedList
     }

@@ -3,7 +3,7 @@ package io.amirhparhizgar.kotask.list
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import io.amirhparhizgar.kotask.database.DatabaseFactory
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 
 class DatabaseTaskRepository(
     private val databaseFactory: DatabaseFactory,
+    private val dispatcher: CoroutineDispatcher,
 ) : TaskRepository {
     override val tasks: Flow<List<Task>>
         get() =
@@ -37,17 +38,22 @@ class DatabaseTaskRepository(
             }
 
     override suspend fun addTask(title: String) =
-        withContext(Dispatchers.Default) {
-            databaseFactory.getDatabase().taskDatabaseQueries.add(title)
+        withContext(dispatcher) {
+            with(databaseFactory.getDatabase()) {
+                transactionWithResult {
+                    taskDatabaseQueries.add(text = title)
+                    taskDatabaseQueries.lastId().executeAsOne().toString()
+                }
+            }
         }
 
     override suspend fun updateTaskIsDone(
-        id: Long,
+        id: String,
         isDone: Boolean,
-    ) = withContext(Dispatchers.Default) {
+    ) = withContext(dispatcher) {
         databaseFactory.getDatabase().taskDatabaseQueries.updateIsDone(
             isDone = if (isDone) 1 else 0,
-            id = id,
+            id = id.toLong(),
         )
     }
 }

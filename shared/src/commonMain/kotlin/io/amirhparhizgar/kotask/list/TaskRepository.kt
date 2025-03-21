@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.Flow
 interface TaskRepository {
     val tasks: Flow<List<Task>>
 
-    suspend fun addTask(title: String)
+    suspend fun addTask(title: String): String
 
     suspend fun updateTaskIsDone(
-        id: Long,
+        id: String,
         isDone: Boolean,
     )
 }

@@ -13,9 +13,10 @@ import io.kotest.core.test.testCoroutineScheduler
 import io.kotest.matchers.properties.shouldHaveValue
 import kotlinx.coroutines.flow.first
 
+@OptIn(ExperimentalStdlibApi::class)
 class TaskListOperationsIntegrationTest : BehaviorSpec({
     coroutineTestScope = true
-    isolationMode = IsolationMode.InstancePerRoot
+    isolationMode = IsolationMode.InstancePerLeaf
     extensions(MainDispatcherExtension())
 
     Given("A TaskListComponent with real operations") {

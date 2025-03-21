@@ -1,12 +1,9 @@
 package io.amirhparhizgar.kotask.database
 
-import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.properties.shouldHaveValue
 
 class DatabaseConnectionTest : BehaviorSpec({
-    isolationMode = IsolationMode.InstancePerRoot
-
     Given("there is no db") {
         When("initializing a db, initializes successfully") {
             createDatabase(JvmInMemoryDriverFactory())

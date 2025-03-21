@@ -9,12 +9,11 @@ import io.amirhparhizgar.kotask.test.fake.FakeTaskOperationComponent
 import io.amirhparhizgar.kotask.test.util.MainDispatcherExtension
 import io.amirhparhizgar.kotask.test.util.createComponentContext
 import io.amirhparhizgar.kotask.test.util.testComponent
-import io.kotest.common.KotestInternal
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.testCoroutineScheduler
 import io.kotest.matchers.collections.shouldHaveSize
 
-@OptIn(KotestInternal::class)
+@OptIn(ExperimentalStdlibApi::class)
 class TaskListComponentTest : FunSpec({
     extension(MainDispatcherExtension())
     coroutineTestScope = true

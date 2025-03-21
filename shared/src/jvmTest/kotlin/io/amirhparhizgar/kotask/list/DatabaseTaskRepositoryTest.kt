@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.first
 @OptIn(ExperimentalStdlibApi::class)
 class DatabaseTaskRepositoryTest : BehaviorSpec({
     coroutineTestScope = true
-    isolationMode = IsolationMode.InstancePerRoot
     extensions(MainDispatcherExtension())
 
     Given("empty in-memory db") {

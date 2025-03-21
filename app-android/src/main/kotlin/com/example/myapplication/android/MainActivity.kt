@@ -3,10 +3,10 @@ package com.example.myapplication.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.arkivanov.decompose.defaultComponentContext
-import io.amirhparhizgar.kotask.root.RootContent
+import com.arkivanov.decompose.retainedComponent
 import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
 import io.amirhparhizgar.kotask.list.TaskRepository
+import io.amirhparhizgar.kotask.root.RootContent
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
@@ -16,10 +16,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val root =
-            DefaultTaskListComponent(
-                componentContext = defaultComponentContext(),
-                repo = taskRepository,
-            )
+            retainedComponent { componentContext ->
+                DefaultTaskListComponent(
+                    componentContext = componentContext,
+                    repo = taskRepository,
+                )
+            }
 
         setContent {
             RootContent(component = root)

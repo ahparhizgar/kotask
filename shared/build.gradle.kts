@@ -41,6 +41,7 @@ kotlin {
                 api(libs.decompose.decompose)
                 api(libs.essenty.lifecycle)
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.koin.core)
             }
         }
         val commonTest by getting {
@@ -50,6 +51,7 @@ kotlin {
                 implementation(libs.kotest.assertion)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.sqldelight.coroutines)
+                implementation(libs.koin.test)
             }
         }
         val jvmTest by getting {
@@ -67,6 +69,7 @@ kotlin {
             dependencies {
                 implementation(libs.sqldelight.android)
                 implementation(libs.kotlinx.coroutines.android)
+                implementation(libs.koin.android)
             }
         }
         val nativeMain by getting {
@@ -109,3 +112,4 @@ sqldelight {
         }
     }
 }
+

@@ -1,4 +1,4 @@
-package com.example.myapplication.desktop
+package io.amirhparhizgar.kotask.desktop
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -10,8 +10,8 @@ import io.amirhparhizgar.kotask.di.AppModule
 import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
 import io.amirhparhizgar.kotask.list.TaskRepository
 import io.amirhparhizgar.kotask.root.RootContent
-import org.koin.core.context.startKoin
 import org.koin.core.context.GlobalContext
+import org.koin.core.context.startKoin
 
 fun main() {
     startKoin {

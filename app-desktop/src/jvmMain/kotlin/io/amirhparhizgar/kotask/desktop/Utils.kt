@@ -1,4 +1,4 @@
-package com.example.myapplication.desktop
+package io.amirhparhizgar.kotask.desktop
 
 import javax.swing.SwingUtilities
 
@@ -20,6 +20,5 @@ internal fun <T> runOnUiThread(block: () -> T): T {
 
     error?.also { throw it }
 
-    @Suppress("UNCHECKED_CAST")
-    return result as T
+    return result!!
 }

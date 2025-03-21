@@ -8,9 +8,10 @@ import com.arkivanov.decompose.extensions.compose.lifecycle.LifecycleController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import io.amirhparhizgar.kotask.di.AppModule
 import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
-import io.amirhparhizgar.kotask.list.FakeTodoRepository
+import io.amirhparhizgar.kotask.list.TaskRepository
 import io.amirhparhizgar.kotask.root.RootContent
 import org.koin.core.context.startKoin
+import org.koin.core.context.GlobalContext
 
 fun main() {
     startKoin {
@@ -18,12 +19,13 @@ fun main() {
     }
 
     val lifecycle = LifecycleRegistry()
+    val taskRepository = GlobalContext.get().get<TaskRepository>()
 
     val root =
         runOnUiThread {
             DefaultTaskListComponent(
                 componentContext = DefaultComponentContext(lifecycle = lifecycle),
-                repo = FakeTodoRepository(),
+                repo = taskRepository,
             )
         }
 

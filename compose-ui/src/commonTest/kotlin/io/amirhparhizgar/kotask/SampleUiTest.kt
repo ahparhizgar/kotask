@@ -7,7 +7,7 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
-import io.amirhparhizgar.kotask.list.FakeTodoRepository
+import io.amirhparhizgar.kotask.list.FakeTaskRepository
 import io.amirhparhizgar.kotask.root.RootContent
 import kotlin.test.Test
 
@@ -21,7 +21,7 @@ class SampleUiTest {
                 runOnUiThread {
                     DefaultTaskListComponent(
                         componentContext = DefaultComponentContext(lifecycle = lifecycle),
-                        repo = FakeTodoRepository(),
+                        repo = FakeTaskRepository(),
                     )
                 }
             setContent {

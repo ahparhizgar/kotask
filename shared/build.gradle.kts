@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.ide.kmp.KotlinAndroidSourceSetMarker.Companion.android
-
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
@@ -42,6 +40,7 @@ kotlin {
                 api(libs.essenty.lifecycle)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.koin.core)
+                implementation(libs.sqldelight.coroutines)
             }
         }
         val commonTest by getting {
@@ -50,7 +49,6 @@ kotlin {
                 implementation(libs.kotest.framework)
                 implementation(libs.kotest.assertion)
                 implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.sqldelight.coroutines)
                 implementation(libs.koin.test)
             }
         }

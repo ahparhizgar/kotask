@@ -19,7 +19,7 @@ interface TaskListComponent {
 
 class DefaultTaskListComponent(
     componentContext: ComponentContext,
-    private val repo: FakeTodoRepository,
+    private val repo: TaskRepository,
 ) : TaskListComponent,
     ComponentContext by componentContext {
     private val coroutineScope = componentCoroutineScope()

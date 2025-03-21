@@ -16,11 +16,11 @@ class TodoListComponentTest : FunSpec({
     lateinit var component: DefaultTaskListComponent
     lateinit var context: ComponentContext
     lateinit var lifecycleRegistry: LifecycleRegistry
-    lateinit var repo: FakeTodoRepository
+    lateinit var repo: FakeTaskRepository
 
     beforeEach {
         lifecycleRegistry = LifecycleRegistry()
-        repo = FakeTodoRepository()
+        repo = FakeTaskRepository()
         context = createComponentContext(lifecycle = lifecycleRegistry)
         component = DefaultTaskListComponent(context, repo)
     }

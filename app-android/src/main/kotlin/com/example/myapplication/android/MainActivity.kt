@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.arkivanov.decompose.retainedComponent
+import io.amirhparhizgar.kotask.AllTasksComponent
 import io.amirhparhizgar.kotask.RootContent
 import io.amirhparhizgar.kotask.list.TaskListComponent
 import org.koin.android.ext.android.getKoin
@@ -15,7 +16,7 @@ class MainActivity : ComponentActivity() {
 
         val root =
             retainedComponent { componentContext ->
-                getKoin().get<TaskListComponent> { parametersOf(componentContext) }
+                getKoin().get<AllTasksComponent> { parametersOf(componentContext) }
             }
 
         setContent {

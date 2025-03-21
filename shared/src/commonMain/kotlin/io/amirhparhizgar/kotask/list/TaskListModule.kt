@@ -1,6 +1,10 @@
 package io.amirhparhizgar.kotask.list
 
 import com.arkivanov.decompose.ComponentContext
+import io.amirhparhizgar.kotask.AddTaskComponent
+import io.amirhparhizgar.kotask.AllTasksComponent
+import io.amirhparhizgar.kotask.DefaultAddTaskComponent
+import io.amirhparhizgar.kotask.DefaultAllTasksComponent
 import io.amirhparhizgar.kotask.taskoperation.DefaultTaskOperationComponent
 import io.amirhparhizgar.kotask.taskoperation.TaskOperationComponent
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +33,25 @@ val TaskListModule =
             DefaultTaskOperationComponent(
                 task = task,
                 repository = get(),
+            )
+        }
+
+        factory<AddTaskComponent> { (context: ComponentContext) ->
+            DefaultAddTaskComponent(
+                context = context,
+                repository = get(),
+            )
+        }
+
+        factory<AllTasksComponent> { (context: ComponentContext) ->
+            DefaultAllTasksComponent(
+                componentContext = context,
+                listComponentFactory = { c: ComponentContext ->
+                    get<TaskListComponent> { parametersOf(c) }
+                },
+                addComponentFactory = { c: ComponentContext ->
+                    get<AddTaskComponent> { parametersOf(c) }
+                },
             )
         }
     }

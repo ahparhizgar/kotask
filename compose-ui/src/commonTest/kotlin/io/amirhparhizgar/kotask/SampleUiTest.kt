@@ -20,11 +20,19 @@ class SampleUiTest {
             val root =
                 runOnUiThread {
                     val taskRepository = FakeTaskRepository()
-                    DefaultTaskListComponent(
+                    DefaultAllTasksComponent(
                         componentContext = DefaultComponentContext(lifecycle = lifecycle),
-                        repo = taskRepository,
-                        taskOperationFactory = { task ->
-                            DefaultTaskOperationComponent(task, taskRepository)
+                        listComponentFactory = {
+                            DefaultTaskListComponent(
+                                componentContext = it,
+                                repo = taskRepository,
+                                taskOperationFactory = { task ->
+                                    DefaultTaskOperationComponent(task, taskRepository)
+                                },
+                            )
+                        },
+                        addComponentFactory = {
+                            DefaultAddTaskComponent(it, taskRepository)
                         },
                     )
                 }

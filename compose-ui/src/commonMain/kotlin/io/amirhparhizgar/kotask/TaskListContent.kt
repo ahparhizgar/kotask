@@ -7,15 +7,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import io.amirhparhizgar.kotask.list.TaskListComponent
 
 @Composable
 fun TaskList(
-    component: TaskListComponent,
+    component: AllTasksComponent,
     modifier: Modifier = Modifier,
 ) {
-    val tasks by component.items.subscribeAsState()
+    val tasks by component.listComponent.items.subscribeAsState()
     LazyColumn(modifier = modifier.fillMaxSize()) {
+        item {
+            AddTaskContent(component.addComponent)
+        }
         items(tasks) {
             Task(component = it)
         }

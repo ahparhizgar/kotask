@@ -6,6 +6,7 @@ import androidx.compose.ui.window.rememberWindowState
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.extensions.compose.lifecycle.LifecycleController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import io.amirhparhizgar.kotask.AllTasksComponent
 import io.amirhparhizgar.kotask.di.AppModule
 import io.amirhparhizgar.kotask.RootContent
 import io.amirhparhizgar.kotask.list.TaskListComponent
@@ -22,7 +23,7 @@ fun main() {
 
     val root =
         runOnUiThread {
-            koin.get<TaskListComponent> { parametersOf(DefaultComponentContext(lifecycle = lifecycle)) }
+            koin.get<AllTasksComponent> { parametersOf(DefaultComponentContext(lifecycle = lifecycle)) }
         }
 
     application {

@@ -13,7 +13,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 @Composable
 fun AddTaskContent(
     component: AddTaskComponent,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val state by component.state.subscribeAsState()
     Row(modifier = modifier) {

@@ -49,15 +49,13 @@ kotlin {
             dependencies {
                 api(project(":shared"))
 
-                // Compose Libraries
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.uiTest)
-
-                // Decompose Libraries
                 api(libs.decompose.decompose)
                 implementation(libs.decompose.extensionsComposeJetbrains)
+                implementation(libs.koin.core)
             }
         }
 

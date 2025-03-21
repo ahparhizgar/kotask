@@ -21,6 +21,7 @@ kotlin {
 
                 implementation(compose.desktop.currentOs)
                 implementation(libs.decompose.extensionsComposeJetbrains)
+                implementation(libs.koin.core)
             }
         }
     }

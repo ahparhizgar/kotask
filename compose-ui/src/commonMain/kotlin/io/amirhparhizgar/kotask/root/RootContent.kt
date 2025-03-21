@@ -1,4 +1,4 @@
-package com.example.myapplication.root
+package io.amirhparhizgar.kotask.root
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets

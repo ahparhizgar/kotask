@@ -6,9 +6,9 @@ import androidx.compose.ui.test.runComposeUiTest
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
-import com.example.myapplication.root.RootContent
 import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
 import io.amirhparhizgar.kotask.list.FakeTodoRepository
+import io.amirhparhizgar.kotask.root.RootContent
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)

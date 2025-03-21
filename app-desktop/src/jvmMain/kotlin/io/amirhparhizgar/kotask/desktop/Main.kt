@@ -7,26 +7,22 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.extensions.compose.lifecycle.LifecycleController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import io.amirhparhizgar.kotask.di.AppModule
-import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
-import io.amirhparhizgar.kotask.list.TaskRepository
-import io.amirhparhizgar.kotask.root.RootContent
-import org.koin.core.context.GlobalContext
+import io.amirhparhizgar.kotask.RootContent
+import io.amirhparhizgar.kotask.list.TaskListComponent
 import org.koin.core.context.startKoin
+import org.koin.core.parameter.parametersOf
 
 fun main() {
-    startKoin {
-        modules(AppModule)
-    }
+    val koin =
+        startKoin {
+            modules(AppModule)
+        }.koin
 
     val lifecycle = LifecycleRegistry()
-    val taskRepository = GlobalContext.get().get<TaskRepository>()
 
     val root =
         runOnUiThread {
-            DefaultTaskListComponent(
-                componentContext = DefaultComponentContext(lifecycle = lifecycle),
-                repo = taskRepository,
-            )
+            koin.get<TaskListComponent> { parametersOf(DefaultComponentContext(lifecycle = lifecycle)) }
         }
 
     application {

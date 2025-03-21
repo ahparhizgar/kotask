@@ -6,6 +6,7 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.essenty.lifecycle.doOnStart
 import com.arkivanov.essenty.lifecycle.doOnStop
+import io.amirhparhizgar.kotask.taskoperation.TaskOperationComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -14,17 +15,18 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 interface TaskListComponent {
-    val items: Value<List<Task>>
+    val items: Value<List<TaskOperationComponent>>
 }
 
 class DefaultTaskListComponent(
     componentContext: ComponentContext,
     private val repo: TaskRepository,
+    private val taskOperationFactory: (task: Task) -> TaskOperationComponent,
 ) : TaskListComponent,
     ComponentContext by componentContext {
     private val coroutineScope = componentCoroutineScope()
-    private val _items: MutableValue<List<Task>> = MutableValue(emptyList())
-    override val items: Value<List<Task>> = _items
+    private val _items: MutableValue<List<TaskOperationComponent>> = MutableValue(emptyList())
+    override val items: Value<List<TaskOperationComponent>> = _items
 
     init {
         var job: Job? = null
@@ -32,7 +34,10 @@ class DefaultTaskListComponent(
             job =
                 coroutineScope.launch {
                     repo.tasks.collect {
-                        _items.value = it
+                        _items.value =
+                            it.map { task ->
+                                taskOperationFactory(task)
+                            }
                     }
                 }
         }
@@ -41,7 +46,7 @@ class DefaultTaskListComponent(
 }
 
 fun ComponentContext.componentCoroutineScope(): CoroutineScope {
-    val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     lifecycle.doOnDestroy {
         scope.cancel()
     }

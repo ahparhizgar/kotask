@@ -1,4 +1,4 @@
-package io.amirhparhizgar.kotask
+package io.amirhparhizgar.kotask.test.util
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.DefaultComponentContext

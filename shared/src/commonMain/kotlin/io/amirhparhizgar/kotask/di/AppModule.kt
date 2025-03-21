@@ -1,7 +1,7 @@
 package io.amirhparhizgar.kotask.di
 
 import io.amirhparhizgar.kotask.database.DatabaseModule
-import io.amirhparhizgar.kotask.list.di.TaskListModule
+import io.amirhparhizgar.kotask.list.TaskListModule
 import org.koin.dsl.module
 
 val AppModule = module {

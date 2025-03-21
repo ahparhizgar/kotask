@@ -3,33 +3,31 @@ package io.amirhparhizgar.kotask.list
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlin.random.Random
 
 class FakeTaskRepository : TaskRepository {
     private val _tasks =
         MutableStateFlow(
             listOf(
-                Task(title = "Buy milk", isDone = false),
-                Task(title = "Walk the dog", isDone = false),
+                Task(id = "1", title = "Buy milk", isDone = false),
+                Task(id = "2", title = "Walk the dog", isDone = false),
             ),
         )
 
     override val tasks: Flow<List<Task>> = _tasks.asStateFlow()
 
     override suspend fun addTask(title: String) {
-        _tasks.value += Task(title = title, isDone = false)
+        _tasks.value += Task(id = Random.nextInt().toString(), title = title, isDone = false)
     }
 
     override suspend fun updateTaskIsDone(
         id: Long,
         isDone: Boolean,
     ) {
-        // In this fake implementation, we'll just assume the id is the index in the list
-        val index = id.toInt()
-        if (index < _tasks.value.size) {
-            val updatedList = _tasks.value.toMutableList()
-            val task = updatedList[index]
-            updatedList[index] = task.copy(isDone = isDone)
-            _tasks.value = updatedList
-        }
+        val updatedList =
+            _tasks.value.mapIndexed { i, t ->
+                if (t.id == id.toString()) t.copy(isDone = isDone) else t
+            }
+        _tasks.value = updatedList
     }
 }

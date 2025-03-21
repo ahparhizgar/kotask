@@ -13,6 +13,7 @@ VALUES
 add:
 INSERT INTO TaskItemEntity (orderNum, text)
 VALUES ((CASE (SELECT COUNT(*) FROM TaskItemEntity) WHEN 0 THEN 1 ELSE (SELECT MAX(orderNum)+1 FROM TaskItemEntity) END), :text);
+SELECT last_insert_rowid();
 
 select:
 SELECT *

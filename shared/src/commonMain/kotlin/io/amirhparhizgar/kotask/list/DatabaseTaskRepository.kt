@@ -27,6 +27,7 @@ class DatabaseTaskRepository(
                         .map { entities ->
                             entities.map { entity ->
                                 Task(
+                                    id = entity.id.toString(),
                                     title = entity.text,
                                     isDone = entity.isDone != 0L,
                                 )

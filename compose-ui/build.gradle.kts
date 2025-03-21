@@ -1,6 +1,8 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 
 plugins {
@@ -21,6 +23,8 @@ kotlin {
                 jvmTarget = libs.versions.jvmTarget.get()
             }
         }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
     listOf(
@@ -59,6 +63,7 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
+                implementation(kotlin("test"))
                 implementation(libs.kotest.framework)
                 implementation(libs.kotest.assertion)
             }
@@ -90,12 +95,26 @@ android {
             libs.versions.android.minSdk
                 .get()
                 .toInt()
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    packagingOptions {
+        resources {
+            // Merge the contents of the files (if possible)
+            merges.add("META-INF/AL2.0")
+            merges.add("META-INF/LGPL2.1")
+        }
+    }
+}
+
+dependencies {
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4-android:1.7.8")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.7.8")
 }
 
 tasks.withType<Test>().configureEach {

@@ -9,11 +9,12 @@ import com.arkivanov.essenty.lifecycle.resume
 import com.example.myapplication.root.RootContent
 import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
 import io.amirhparhizgar.kotask.list.FakeTodoRepository
-import io.kotest.core.spec.style.FunSpec
+import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
-class SampleUiTest : FunSpec({
-    test("Buy milk exists") {
+class SampleUiTest {
+    @Test
+    fun testBuyMilk() =
         runComposeUiTest {
             val lifecycle = LifecycleRegistry()
             val root =
@@ -29,5 +30,4 @@ class SampleUiTest : FunSpec({
             lifecycle.resume()
             onNodeWithText("Buy milk").assertExists()
         }
-    }
-})
+}

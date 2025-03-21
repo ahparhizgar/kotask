@@ -9,7 +9,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.testCoroutineScheduler
 import io.kotest.matchers.collections.shouldHaveSize
 
-class TodoListComponentTest : FunSpec({
+class TaskListComponentTest : FunSpec({
     extension(MainDispatcherExtension())
     coroutineTestScope = true
 

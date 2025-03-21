@@ -13,7 +13,7 @@ class FakeTaskRepository : TaskRepository {
             ),
         )
 
-    override val todos: Flow<List<Task>> = _tasks.asStateFlow()
+    override val tasks: Flow<List<Task>> = _tasks.asStateFlow()
 
     override suspend fun addTask(title: String) {
         _tasks.value += Task(title = title, isDone = false)

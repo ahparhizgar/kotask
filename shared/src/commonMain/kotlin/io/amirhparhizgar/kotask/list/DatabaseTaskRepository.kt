@@ -14,13 +14,13 @@ import kotlinx.coroutines.withContext
 class DatabaseTaskRepository(
     private val databaseFactory: DatabaseFactory,
 ) : TaskRepository {
-    override val todos: Flow<List<Task>>
+    override val tasks: Flow<List<Task>>
         get() =
             flow {
                 emitAll(
                     databaseFactory
                         .getDatabase()
-                        .toDoDatabaseQueries
+                        .taskDatabaseQueries
                         .selectAll()
                         .asFlow()
                         .mapToList(currentCoroutineContext())
@@ -37,14 +37,14 @@ class DatabaseTaskRepository(
 
     override suspend fun addTask(title: String) =
         withContext(Dispatchers.Default) {
-            databaseFactory.getDatabase().toDoDatabaseQueries.add(title)
+            databaseFactory.getDatabase().taskDatabaseQueries.add(title)
         }
 
     override suspend fun updateTaskIsDone(
         id: Long,
         isDone: Boolean,
     ) = withContext(Dispatchers.Default) {
-        databaseFactory.getDatabase().toDoDatabaseQueries.updateIsDone(
+        databaseFactory.getDatabase().taskDatabaseQueries.updateIsDone(
             isDone = if (isDone) 1 else 0,
             id = id,
         )

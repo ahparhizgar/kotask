@@ -15,12 +15,12 @@ class DatabaseConnectionTest : BehaviorSpec({
 
     Given("there is a db") {
         val db = createDatabase(JvmInMemoryDriverFactory())
-        When("adding a Todo") {
-            db.toDoDatabaseQueries.add("Buy milk")
+        When("adding a Task") {
+            db.taskDatabaseQueries.add("Buy milk")
             And("retrieving it") {
-                val toDo = db.toDoDatabaseQueries.select(1).executeAsOne()
+                val task = db.taskDatabaseQueries.select(1).executeAsOne()
                 Then("retrieves successfully") {
-                    toDo::text shouldHaveValue "Buy milk"
+                    task::text shouldHaveValue "Buy milk"
                 }
             }
         }

@@ -27,22 +27,6 @@ kotlin {
         instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64(),
-    ).takeIf { "XCODE_VERSION_MAJOR" in System.getenv().keys } // Export the framework only for Xcode builds
-        ?.forEach {
-            // This `shared` framework is exported for app-ios-compose
-            it.binaries.framework {
-                baseName = "shared" // Used in app-ios-compose
-
-                export(project(":shared"))
-                export(libs.decompose.decompose)
-                export(libs.essenty.lifecycle)
-            }
-        }
-
     @OptIn(ExperimentalComposeLibrary::class)
     sourceSets {
         val commonMain by getting {

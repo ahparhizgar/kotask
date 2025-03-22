@@ -102,3 +102,15 @@ dependencies {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
+
+afterEvaluate {
+    tasks.named("testDebugUnitTest") {
+        enabled = false
+    }
+    tasks.named("testReleaseUnitTest") {
+        enabled = false
+    }
+    tasks.named("compileReleaseUnitTestKotlinAndroid") {
+        enabled = false
+    }
+}

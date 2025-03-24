@@ -10,8 +10,7 @@ class DatabaseConnectionTest : BehaviorSpec({
         }
     }
 
-    // disabled because we have default tasks now
-    xGiven("there is a db") {
+    Given("there is a db") {
         val db = createDatabase(JvmInMemoryDriverFactory())
         When("adding a Task") {
             db.taskDatabaseQueries.add("Buy milk")

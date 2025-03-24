@@ -26,6 +26,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.koin.core)
                 implementation(libs.sqldelight.coroutines)
+                implementation(libs.kotlinx.datetime)
             }
         }
         val commonTest by getting {

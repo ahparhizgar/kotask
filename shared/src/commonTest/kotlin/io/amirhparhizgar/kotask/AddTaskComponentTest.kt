@@ -5,18 +5,18 @@ import io.amirhparhizgar.kotask.test.util.createComponentContext
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.properties.shouldHaveValue
-import io.kotest.matchers.properties.shouldMatch
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.first
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.plus
 
 class AddTaskComponentTest : BehaviorSpec({
     coroutineTestScope = true
     Given("AddTaskComponent") {
+        val repository = FakeTaskRepository()
         val component: AddTaskComponent =
             DefaultAddTaskComponent(
                 context = createComponentContext(),
-                repository = FakeTaskRepository(),
+                repository = repository,
             )
 
         When("the component is created") {
@@ -45,12 +45,14 @@ class AddTaskComponentTest : BehaviorSpec({
             component.onTitleChange("New Task")
             component.onDueDateChange(due)
             component.onAddClick().join()
-            Then("state is updated") {
-                component.state.value::addedTask shouldMatch {
-                    shouldNotBeNull()
-                }
+            Then("state is updated and task is added to repo") {
+                val addedTask =
+                    component.state.value.addedTask
+                        .shouldNotBeNull()
                 component.state.value::title shouldHaveValue ""
                 component.state.value::dueDate shouldHaveValue null
+                val tasks = repository.tasks.first()
+                tasks.last()::id shouldHaveValue addedTask.id
             }
         }
     }

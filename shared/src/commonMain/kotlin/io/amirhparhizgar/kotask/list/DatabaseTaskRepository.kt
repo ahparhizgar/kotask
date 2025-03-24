@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.LocalDate
 
 class DatabaseTaskRepository(
     private val databaseFactory: DatabaseFactory,
@@ -31,21 +32,24 @@ class DatabaseTaskRepository(
                                     id = entity.id.toString(),
                                     title = entity.text,
                                     isDone = entity.isDone != 0L,
+                                    dueDate = entity.dueDate?.let { LocalDate.fromEpochDays(it.toInt()) },
                                 )
                             }
                         },
                 )
             }
 
-    override suspend fun addTask(title: String) =
-        withContext(dispatcher) {
-            with(databaseFactory.getDatabase()) {
-                transactionWithResult {
-                    taskDatabaseQueries.add(text = title)
-                    taskDatabaseQueries.lastId().executeAsOne().toString()
-                }
+    override suspend fun addTask(
+        title: String,
+        dueDate: LocalDate?,
+    ) = withContext(dispatcher) {
+        with(databaseFactory.getDatabase()) {
+            transactionWithResult {
+                taskDatabaseQueries.add(text = title, dueDate = dueDate?.toEpochDays()?.toLong())
+                taskDatabaseQueries.lastId().executeAsOne().toString()
             }
         }
+    }
 
     override suspend fun updateDoneStatus(
         id: String,
@@ -69,6 +73,7 @@ class DatabaseTaskRepository(
                         id = entity.id.toString(),
                         title = entity.text,
                         isDone = entity.isDone != 0L,
+                        dueDate = entity.dueDate?.let { LocalDate.fromEpochDays(it.toInt()) },
                     )
                 }
         }

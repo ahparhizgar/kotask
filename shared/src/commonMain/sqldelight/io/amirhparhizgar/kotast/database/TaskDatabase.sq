@@ -1,12 +1,13 @@
 CREATE TABLE IF NOT EXISTS TaskItemEntity (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     text TEXT NOT NULL,
-    isDone INTEGER NOT NULL DEFAULT 0
+    isDone INTEGER NOT NULL DEFAULT 0,
+    dueDate INTEGER
 );
 
 add:
-INSERT INTO TaskItemEntity (text)
-VALUES (:text);
+INSERT INTO TaskItemEntity (text, dueDate)
+VALUES (:text, :dueDate);
 
 lastId:
 SELECT last_insert_rowid();

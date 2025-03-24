@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlin.random.Random
+import kotlinx.datetime.LocalDate
 
 class FakeTaskRepository(
     initialTasks: List<Task> = listOf(
@@ -16,9 +17,12 @@ class FakeTaskRepository(
 
     override val tasks: Flow<List<Task>> = _tasks.asStateFlow()
 
-    override suspend fun addTask(title: String): String {
+    override suspend fun addTask(
+        title: String,
+        dueDate: LocalDate?,
+    ): String {
         val id = Random.nextInt().toString()
-        _tasks.value += Task(id = id, title = title, isDone = false)
+        _tasks.value += Task(id = id, title = title, isDone = false, dueDate = dueDate)
         return id
     }
 

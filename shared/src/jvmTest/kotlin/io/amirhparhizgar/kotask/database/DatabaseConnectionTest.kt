@@ -13,7 +13,7 @@ class DatabaseConnectionTest : BehaviorSpec({
     Given("there is a db") {
         val db = createDatabase(JvmInMemoryDriverFactory())
         When("adding a Task") {
-            db.taskDatabaseQueries.add("Buy milk")
+            db.taskDatabaseQueries.add("Buy milk", null)
             And("retrieving it") {
                 val task = db.taskDatabaseQueries.select(1).executeAsOne()
                 Then("retrieves successfully") {

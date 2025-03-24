@@ -8,16 +8,20 @@ import io.amirhparhizgar.kotask.list.TaskRepository
 import io.amirhparhizgar.kotask.list.componentCoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 
 interface AddTaskComponent {
     val state: MutableValue<State>
 
     fun onTitleChange(newTitle: String)
 
+    fun onDueDateChange(newDueDate: LocalDate?)
+
     fun onAddClick(): Job
 
     data class State(
         val title: String = "",
+        val dueDate: LocalDate? = null,
         val addedTask: Task? = null,
     )
 }
@@ -34,14 +38,21 @@ class DefaultAddTaskComponent(context: ComponentContext, private val repository:
         }
     }
 
+    override fun onDueDateChange(newDueDate: LocalDate?) {
+        state.update {
+            it.copy(dueDate = newDueDate)
+        }
+    }
+
     override fun onAddClick() =
         coroutineScope.launch {
-            val id = repository.addTask(state.value.title)
+            val id = repository.addTask(state.value.title, state.value.dueDate)
             val task = repository.get(id)
             state.update {
                 it.copy(
                     addedTask = task,
                     title = "",
+                    dueDate = null,
                 )
             }
         }

@@ -1,13 +1,12 @@
 CREATE TABLE IF NOT EXISTS TaskItemEntity (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    orderNum INTEGER NOT NULL,
     text TEXT NOT NULL,
     isDone INTEGER NOT NULL DEFAULT 0
 );
 
 add:
-INSERT INTO TaskItemEntity (orderNum, text)
-VALUES ((CASE (SELECT COUNT(*) FROM TaskItemEntity) WHEN 0 THEN 1 ELSE (SELECT MAX(orderNum)+1 FROM TaskItemEntity) END), :text);
+INSERT INTO TaskItemEntity (text)
+VALUES (:text);
 
 lastId:
 SELECT last_insert_rowid();
@@ -19,8 +18,7 @@ WHERE id = :id;
 
 selectAll:
 SELECT *
-FROM TaskItemEntity
-ORDER BY orderNum;
+FROM TaskItemEntity;
 
 updateIsDone:
 UPDATE TaskItemEntity

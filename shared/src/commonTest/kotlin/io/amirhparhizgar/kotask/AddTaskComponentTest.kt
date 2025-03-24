@@ -35,6 +35,7 @@ class AddTaskComponentTest : BehaviorSpec({
                 component.state.value::addedTask shouldMatch {
                     shouldNotBeNull()
                 }
+                component.state.value::title shouldHaveValue ""
             }
         }
     }

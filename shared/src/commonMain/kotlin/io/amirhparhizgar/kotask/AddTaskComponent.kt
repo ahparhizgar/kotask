@@ -41,6 +41,7 @@ class DefaultAddTaskComponent(context: ComponentContext, private val repository:
             state.update {
                 it.copy(
                     addedTask = task,
+                    title = "",
                 )
             }
         }

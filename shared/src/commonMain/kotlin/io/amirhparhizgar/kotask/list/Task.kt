@@ -8,3 +8,12 @@ data class Task(
     val isDone: Boolean,
     val dueDate: LocalDate? = null,
 )
+
+object FakeTaskFactory {
+    fun create() =
+        Task(
+            id = "1",
+            title = "Task 1",
+            isDone = false,
+        )
+}

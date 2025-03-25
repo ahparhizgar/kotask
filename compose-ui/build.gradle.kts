@@ -40,6 +40,7 @@ kotlin {
                 api(libs.decompose.decompose)
                 implementation(libs.decompose.extensionsComposeJetbrains)
                 implementation(libs.koin.core)
+                implementation(libs.kotlinx.datetime)
                 implementation(compose.components.uiToolingPreview)
             }
         }

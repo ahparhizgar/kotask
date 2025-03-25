@@ -1,18 +1,18 @@
 package io.amirhparhizgar.kotask.test.util
 
-import io.kotest.common.KotestInternal
 import io.kotest.core.listeners.AfterTestListener
 import io.kotest.core.listeners.BeforeTestListener
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 
-@OptIn(KotestInternal::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainDispatcherExtension(private val dispatcher: TestDispatcher = StandardTestDispatcher()) :
     BeforeTestListener, AfterTestListener {
     constructor(testCoroutineScheduler: TestCoroutineScheduler) : this(

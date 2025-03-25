@@ -4,12 +4,12 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
-
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.roborazzi)
 }
 
 kotlin {
@@ -40,6 +40,7 @@ kotlin {
                 api(libs.decompose.decompose)
                 implementation(libs.decompose.extensionsComposeJetbrains)
                 implementation(libs.koin.core)
+                implementation(compose.components.uiToolingPreview)
             }
         }
 
@@ -48,6 +49,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(libs.kotest.framework)
                 implementation(libs.kotest.assertion)
+                implementation(libs.roborazzi)
             }
         }
 
@@ -60,6 +62,8 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(libs.kotest.junit)
+                implementation(libs.previewScanner)
+                implementation(libs.roborazzi.compose.desktop)
             }
         }
     }
@@ -113,4 +117,12 @@ afterEvaluate {
     tasks.named("compileReleaseUnitTestKotlinAndroid") {
         enabled = false
     }
+}
+
+tasks.register<Delete>("cleanScreenshots") {
+    delete(layout.buildDirectory.dir("outputs/roborazzi"))
+}
+
+tasks.named("recordRoborazzi") {
+    dependsOn(tasks.named("cleanScreenshots"))
 }

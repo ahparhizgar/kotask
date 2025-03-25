@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,51 +35,53 @@ fun AddTaskContent(
 ) {
     val state by component.state.subscribeAsState()
 
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        CircularCheckbox(
-            checked = false,
-            onCheckedChange = { /*noop*/ },
-        )
-        Spacer(Modifier.width(8.dp))
-        BasicTextField(
-            modifier = Modifier
-                .weight(1f)
-                .onPreviewKeyEvent {
-                    if (it.key == Key.Enter && it.type == KeyEventType.KeyDown) {
+    Card(shape = MaterialTheme.shapes.small) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            CircularCheckbox(
+                checked = false,
+                onCheckedChange = { /*noop*/ },
+            )
+            Spacer(Modifier.width(8.dp))
+            BasicTextField(
+                modifier = Modifier
+                    .weight(1f)
+                    .onPreviewKeyEvent {
+                        if (it.key == Key.Enter && it.type == KeyEventType.KeyDown) {
+                            component.onAddClick()
+                            true
+                        } else {
+                            false
+                        }
+                    },
+                value = state.title,
+                onValueChange = component::onTitleChange,
+                singleLine = true,
+                keyboardActions = KeyboardActions(
+                    onDone = {
                         component.onAddClick()
-                        true
-                    } else {
-                        false
+                    },
+                ),
+                textStyle = TextStyle(
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                ),
+                decorationBox = { innerTextField ->
+                    Box {
+                        if (state.title.isEmpty()) {
+                            Text(
+                                "Add a task",
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                            )
+                        }
+                        innerTextField()
                     }
                 },
-            value = state.title,
-            onValueChange = component::onTitleChange,
-            singleLine = true,
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    component.onAddClick()
-                },
-            ),
-            textStyle = TextStyle(
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-            ),
-            decorationBox = { innerTextField ->
-                Box {
-                    if (state.title.isEmpty()) {
-                        Text(
-                            "Add a task",
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                        )
-                    }
-                    innerTextField()
-                }
-            },
-        )
+            )
+        }
     }
 }
 

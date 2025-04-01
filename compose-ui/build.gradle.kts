@@ -1,8 +1,7 @@
-@file:Suppress("DSL_SCOPE_VIOLATION")
-
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
+import org.jetbrains.kotlin.incremental.deleteDirectoryContents
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -48,6 +47,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(kotlin("test-annotations-common"))
                 implementation(libs.kotest.framework)
                 implementation(libs.kotest.assertion)
                 implementation(libs.roborazzi)
@@ -120,10 +120,21 @@ afterEvaluate {
     }
 }
 
-tasks.register<Delete>("cleanScreenshots") {
-    delete(layout.buildDirectory.dir("outputs/roborazzi"))
+tasks.register("cleanScreenshots") {
+    doFirst {
+        val isRecord = providers
+            .gradleProperty("roborazzi.test.record")
+            .orElse("false")
+            .get() == "true"
+        if (isRecord) {
+            fileTree(layout.buildDirectory.dir("outputs/roborazzi")).dir.deleteDirectoryContents()
+            fileTree(layout.buildDirectory.dir("intermediates/roborazzi")).dir.deleteDirectoryContents()
+        } else {
+            println("Skipping deletion as roborazzi.test.record is not true")
+        }
+    }
 }
 
-tasks.named("recordRoborazzi") {
+tasks.named("jvmTest") {
     dependsOn(tasks.named("cleanScreenshots"))
 }

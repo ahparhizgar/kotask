@@ -5,10 +5,10 @@ import io.amirhparhizgar.kotask.AddTaskComponent
 import io.amirhparhizgar.kotask.AllTasksComponent
 import io.amirhparhizgar.kotask.DefaultAddTaskComponent
 import io.amirhparhizgar.kotask.DefaultAllTasksComponent
+import io.amirhparhizgar.kotask.Task
 import io.amirhparhizgar.kotask.taskoperation.DefaultTaskOperationComponent
 import io.amirhparhizgar.kotask.taskoperation.TaskOperationComponent
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 

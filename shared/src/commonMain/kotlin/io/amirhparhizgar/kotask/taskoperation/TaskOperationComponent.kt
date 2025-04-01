@@ -1,6 +1,6 @@
 package io.amirhparhizgar.kotask.taskoperation
 
-import io.amirhparhizgar.kotask.list.Task
+import io.amirhparhizgar.kotask.Task
 import io.amirhparhizgar.kotask.list.TaskRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

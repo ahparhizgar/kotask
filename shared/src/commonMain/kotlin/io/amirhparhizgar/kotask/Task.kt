@@ -1,4 +1,4 @@
-package io.amirhparhizgar.kotask.list
+package io.amirhparhizgar.kotask
 
 import kotlinx.datetime.LocalDate
 

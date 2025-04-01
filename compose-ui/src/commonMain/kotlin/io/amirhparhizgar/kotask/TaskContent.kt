@@ -11,8 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.amirhparhizgar.kotask.list.FakeTaskFactory
-import io.amirhparhizgar.kotask.list.Task
 import io.amirhparhizgar.kotask.taskoperation.TaskOperationComponent
 import kotlinx.coroutines.Job
 import org.jetbrains.compose.ui.tooling.preview.Preview

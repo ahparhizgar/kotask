@@ -3,7 +3,6 @@ package io.amirhparhizgar.kotask
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.update
-import io.amirhparhizgar.kotask.list.Task
 import io.amirhparhizgar.kotask.list.TaskRepository
 import io.amirhparhizgar.kotask.list.componentCoroutineScope
 import kotlinx.coroutines.Job

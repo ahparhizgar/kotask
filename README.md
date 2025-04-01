@@ -1,3 +1,5 @@
+![build status](https://github.com/ahparhizgar/kotask/actions/workflows/build.yml/badge.svg)
+
 # Kotask
 
 ![Logo](/images/logo.png)

@@ -75,7 +75,7 @@ class AllTasksComponentTest : BehaviorSpec({
             val task = repository.taskStream.first().last()
             When("requesting edit") {
                 allTasksComponent.openDetails(task)
-                Then("edit component should be visible") {
+                Then("edit component should be present") {
                     val instance = allTasksComponent.panels.value.extra
                         ?.instance
                         .shouldNotBeNull()

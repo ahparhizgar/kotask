@@ -34,7 +34,7 @@ class DefaultTaskListComponent(
         lifecycle.doOnStart {
             job =
                 coroutineScope.launch {
-                    repo.tasks.collect {
+                    repo.taskStream.collect {
                         _items.value =
                             it.map { task ->
                                 taskOperationFactory(task)

@@ -31,7 +31,7 @@ class DatabaseTaskRepositoryTest : BehaviorSpec({
             And("setting it's status to done") {
                 repository.updateDoneStatus(id = id, isDone = true)
                 Then("it should be done") {
-                    val task = repository.tasks.first().first { it.id == id }
+                    val task = repository.taskStream.first().first { it.id == id }
                     task::isDone shouldHaveValue true
                 }
             }

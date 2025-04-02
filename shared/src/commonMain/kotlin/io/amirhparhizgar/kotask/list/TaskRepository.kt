@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
 
 interface TaskRepository {
-    val tasks: Flow<List<Task>>
+    val taskStream: Flow<List<Task>>
 
     suspend fun addTask(
         title: String,

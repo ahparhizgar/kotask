@@ -43,7 +43,7 @@ class DefaultEditTaskComponent(
         var job: Job? = null
         lifecycle.doOnStart {
             job = scope.launch {
-                repository.tasks.map { it.firstOrNull { it.id == id } }.collect { t ->
+                repository.taskStream.map { it.firstOrNull { it.id == id } }.collect { t ->
                     if (t != null) {
                         _task.update { LoadingTask.Loaded(t) }
                     }

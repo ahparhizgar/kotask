@@ -16,7 +16,7 @@ class FakeTaskRepository(
     private val _tasks =
         MutableStateFlow(initialTasks)
 
-    override val tasks: Flow<List<Task>> = _tasks.asStateFlow()
+    override val taskStream: Flow<List<Task>> = _tasks.asStateFlow()
 
     override suspend fun addTask(
         title: String,

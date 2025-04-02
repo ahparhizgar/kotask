@@ -17,7 +17,7 @@ class DatabaseTaskRepository(
     private val databaseFactory: DatabaseFactory,
     private val dispatcher: CoroutineDispatcher,
 ) : TaskRepository {
-    override val tasks: Flow<List<Task>>
+    override val taskStream: Flow<List<Task>>
         get() =
             flow {
                 emitAll(

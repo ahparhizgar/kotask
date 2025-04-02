@@ -51,7 +51,7 @@ class AddTaskComponentTest : BehaviorSpec({
                         .shouldNotBeNull()
                 component.state.value::title shouldHaveValue ""
                 component.state.value::dueDate shouldHaveValue null
-                val tasks = repository.tasks.first()
+                val tasks = repository.taskStream.first()
                 tasks.last()::id shouldHaveValue addedTask.id
             }
         }

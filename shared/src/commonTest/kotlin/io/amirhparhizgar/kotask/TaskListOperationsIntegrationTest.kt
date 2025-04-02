@@ -44,7 +44,7 @@ class TaskListOperationsIntegrationTest : BehaviorSpec({
         When("task is marked as done") {
             firstTask.setDone(true).join()
             Then("task should be marked as done in repository") {
-                repo.tasks
+                repo.taskStream
                     .first()
                     .first()::isDone shouldHaveValue true
             }

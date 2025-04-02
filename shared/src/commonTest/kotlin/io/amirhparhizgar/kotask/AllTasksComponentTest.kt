@@ -72,8 +72,7 @@ class AllTasksComponentTest : BehaviorSpec({
 
         And("contains a task") {
             repository.addFakeTask()
-            // todo rename to tasksStream
-            val task = repository.tasks.first().last()
+            val task = repository.taskStream.first().last()
             When("requesting edit") {
                 allTasksComponent.openDetails(task)
                 Then("edit component should be visible") {

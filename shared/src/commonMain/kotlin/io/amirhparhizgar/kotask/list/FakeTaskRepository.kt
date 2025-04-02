@@ -27,6 +27,10 @@ class FakeTaskRepository(
         return id
     }
 
+    suspend fun addFakeTask(title: String = "Fake Task") {
+        addTask(title = title, dueDate = null)
+    }
+
     override suspend fun updateDoneStatus(
         id: String,
         isDone: Boolean,

@@ -31,8 +31,15 @@ class SampleUiTest {
                                 },
                             )
                         },
-                        addComponentFactory = {
-                            DefaultAddTaskComponent(it, taskRepository)
+                        editComponentFactory = { c, id ->
+                            DefaultEditTaskComponent(
+                                id = id,
+                                context = c,
+                                repository = taskRepository,
+                            )
+                        },
+                        addComponentFactory = { c ->
+                            DefaultAddTaskComponent(context = c, repository = taskRepository)
                         },
                     )
                 }

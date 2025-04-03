@@ -36,7 +36,7 @@ class DefaultMultiPaneTasksComponent(
     override val panels =
         childPanels(
             source = navigation,
-            initialPanels = { Panels(main = Unit, details = null, extra = null) },
+            initialPanels = { Panels(main = Unit, details = Unit, extra = null) },
             serializers = null,
             handleBackButton = true,
             mainFactory = { _, ctx -> ViewSelector() },

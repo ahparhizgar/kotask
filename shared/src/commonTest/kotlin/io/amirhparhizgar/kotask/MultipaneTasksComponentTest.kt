@@ -59,11 +59,13 @@ class MultipaneTasksComponentTest : BehaviorSpec({
             multiPaneTasksComponent.addComponent.onAddClick().join()
 
             Then("it should be in the list") {
+                val listComponent = multiPaneTasksComponent.panels.value.details!!
+                    .instance
                 withClue("task list") {
-                    multiPaneTasksComponent.listComponent.items.value shouldHaveSize 1
+                    listComponent.items.value shouldHaveSize 1
                 }
                 testCoroutineScheduler.advanceUntilIdle()
-                multiPaneTasksComponent.listComponent.items.value
+                listComponent.items.value
                     .first()
                     .task
                     .title shouldBe "New Task"

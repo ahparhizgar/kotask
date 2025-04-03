@@ -20,6 +20,7 @@ class PreviewScreenshotTest : FunSpec({
     val previews = JvmAnnotationScanner(
         annotationToScanClassName = annotationToScanClassName,
     ).scanPackageTrees(*packages)
+        .includePrivatePreviews()
         .getPreviews()
     val roborazziContext = provideRoborazziContext()
     if (roborazziContext.options.taskType.isEnabled()) {

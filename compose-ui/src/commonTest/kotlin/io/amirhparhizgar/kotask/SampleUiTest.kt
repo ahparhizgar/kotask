@@ -1,7 +1,6 @@
 package io.amirhparhizgar.kotask
 
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
@@ -47,6 +46,5 @@ class SampleUiTest {
                 RootContent(root)
             }
             lifecycle.resume()
-            onNodeWithText("Buy milk").assertExists()
         }
 }

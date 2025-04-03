@@ -10,7 +10,7 @@ import com.arkivanov.decompose.router.panels.navigate
 import com.arkivanov.decompose.value.Value
 import io.amirhparhizgar.kotask.list.TaskListComponent
 
-interface AllTasksComponent {
+interface MultiPaneTasksComponent {
     @OptIn(ExperimentalDecomposeApi::class)
     val panels: Value<ChildPanels<Unit, ViewSelector, Unit, TaskListComponent, EditTask, EditTaskComponent>>
     val listComponent: TaskListComponent
@@ -24,12 +24,12 @@ data class EditTask(val taskId: String)
 class ViewSelector
 
 @OptIn(ExperimentalDecomposeApi::class)
-class DefaultAllTasksComponent(
+class DefaultMultiPaneTasksComponent(
     componentContext: ComponentContext,
     private val listComponentFactory: (context: ComponentContext) -> TaskListComponent,
     private val editComponentFactory: (context: ComponentContext, id: String) -> EditTaskComponent,
     addComponentFactory: (context: ComponentContext) -> AddTaskComponent,
-) : ComponentContext by componentContext, AllTasksComponent {
+) : ComponentContext by componentContext, MultiPaneTasksComponent {
     private val navigation = PanelsNavigation<Unit, Unit, EditTask>()
     override val panels =
         childPanels(

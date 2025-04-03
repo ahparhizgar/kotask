@@ -24,14 +24,14 @@ import kotlinx.coroutines.flow.first
     ExperimentalCoroutinesApi::class,
     ExperimentalDecomposeApi::class,
 )
-class AllTasksComponentTest : BehaviorSpec({
+class MultipaneTasksComponentTest : BehaviorSpec({
     coroutineTestScope = true
     extensions(MainDispatcherExtension())
 
     Given("all tasks component with real children, resumed") {
         val repository = FakeTaskRepository(initialTasks = emptyList())
         val lifecycle = LifecycleRegistry()
-        val allTasksComponent: AllTasksComponent = DefaultAllTasksComponent(
+        val multiPaneTasksComponent: MultiPaneTasksComponent = DefaultMultiPaneTasksComponent(
             componentContext = createComponentContext(lifecycle),
             listComponentFactory = {
                 DefaultTaskListComponent(
@@ -55,15 +55,15 @@ class AllTasksComponentTest : BehaviorSpec({
         lifecycle.resume()
 
         When("adding a task") {
-            allTasksComponent.addComponent.onTitleChange("New Task")
-            allTasksComponent.addComponent.onAddClick().join()
+            multiPaneTasksComponent.addComponent.onTitleChange("New Task")
+            multiPaneTasksComponent.addComponent.onAddClick().join()
 
             Then("it should be in the list") {
                 withClue("task list") {
-                    allTasksComponent.listComponent.items.value shouldHaveSize 1
+                    multiPaneTasksComponent.listComponent.items.value shouldHaveSize 1
                 }
                 testCoroutineScheduler.advanceUntilIdle()
-                allTasksComponent.listComponent.items.value
+                multiPaneTasksComponent.listComponent.items.value
                     .first()
                     .task
                     .title shouldBe "New Task"
@@ -74,9 +74,9 @@ class AllTasksComponentTest : BehaviorSpec({
             repository.addFakeTask()
             val task = repository.taskStream.first().last()
             When("requesting edit") {
-                allTasksComponent.openDetails(task)
+                multiPaneTasksComponent.openDetails(task)
                 Then("edit component should be present") {
-                    val instance = allTasksComponent.panels.value.extra
+                    val instance = multiPaneTasksComponent.panels.value.extra
                         ?.instance
                         .shouldNotBeNull()
                     val loadingTask = instance.task.value

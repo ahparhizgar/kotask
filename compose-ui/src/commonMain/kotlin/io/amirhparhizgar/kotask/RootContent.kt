@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun RootContent(
-    component: AllTasksComponent,
+    component: MultiPaneTasksComponent,
     modifier: Modifier = Modifier,
 ) {
     MaterialTheme {

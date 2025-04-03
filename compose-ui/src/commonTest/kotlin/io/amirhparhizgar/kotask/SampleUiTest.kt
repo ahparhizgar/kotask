@@ -20,7 +20,7 @@ class SampleUiTest {
             val root =
                 runOnUiThread {
                     val taskRepository = FakeTaskRepository()
-                    DefaultAllTasksComponent(
+                    DefaultMultiPaneTasksComponent(
                         componentContext = DefaultComponentContext(lifecycle = lifecycle),
                         listComponentFactory = {
                             DefaultTaskListComponent(

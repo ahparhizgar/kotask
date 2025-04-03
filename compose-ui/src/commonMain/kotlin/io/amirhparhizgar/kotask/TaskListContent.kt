@@ -10,7 +10,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 
 @Composable
 fun TaskList(
-    component: AllTasksComponent,
+    component: MultiPaneTasksComponent,
     modifier: Modifier = Modifier,
 ) {
     val tasks by component.listComponent.items.subscribeAsState()

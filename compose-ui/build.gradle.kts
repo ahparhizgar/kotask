@@ -38,6 +38,7 @@ kotlin {
                 implementation(compose.uiTest)
                 api(libs.decompose.decompose)
                 implementation(libs.decompose.extensionsComposeJetbrains)
+                implementation(libs.decompose.extensionsComposeJetbrains.experimental)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.datetime)
                 implementation(compose.components.uiToolingPreview)
@@ -127,8 +128,13 @@ tasks.register("cleanScreenshots") {
             .orElse("false")
             .get() == "true"
         if (isRecord) {
-            fileTree(layout.buildDirectory.dir("outputs/roborazzi")).dir.deleteDirectoryContents()
-            fileTree(layout.buildDirectory.dir("intermediates/roborazzi")).dir.deleteDirectoryContents()
+            for (file in listOf("outputs/roborazzi", "intermediates/roborazzi")) {
+                fileTree(layout.buildDirectory.dir(file)).dir.run {
+                    if (exists()) {
+                        deleteDirectoryContents()
+                    }
+                }
+            }
         } else {
             println("Skipping deletion as roborazzi.test.record is not true")
         }

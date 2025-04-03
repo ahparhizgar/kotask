@@ -7,6 +7,7 @@ import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.essenty.lifecycle.doOnStart
 import com.arkivanov.essenty.lifecycle.doOnStop
 import io.amirhparhizgar.kotask.Task
+import io.amirhparhizgar.kotask.taskoperation.FakeTaskOperationComponent
 import io.amirhparhizgar.kotask.taskoperation.TaskOperationComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,4 +53,12 @@ fun ComponentContext.componentCoroutineScope(): CoroutineScope {
         scope.cancel()
     }
     return scope
+}
+
+class FakeTaskListComponent(
+    override val items: MutableValue<List<TaskOperationComponent>>,
+) : TaskListComponent {
+    constructor(
+        items: List<Task>,
+    ) : this(MutableValue(items.map { FakeTaskOperationComponent(it) }))
 }

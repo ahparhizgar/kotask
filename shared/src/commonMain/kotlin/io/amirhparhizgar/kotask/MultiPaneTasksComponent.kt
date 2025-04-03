@@ -14,7 +14,6 @@ import io.amirhparhizgar.kotask.list.TaskListComponent
 @OptIn(ExperimentalDecomposeApi::class)
 interface MultiPaneTasksComponent {
     val panels: Value<ChildPanels<Unit, ViewSelector, Unit, TaskListComponent, EditTask, EditTaskComponent>>
-    val listComponent: TaskListComponent
     val addComponent: AddTaskComponent
 
     fun openDetails(task: Task)
@@ -45,7 +44,7 @@ class DefaultMultiPaneTasksComponent(
             extraFactory = { cfg, ctx -> editComponentFactory(ctx, cfg.taskId) },
         )
 
-    override val listComponent = listComponentFactory(componentContext)
+    // todo move it to a new component containing list component
     override val addComponent = addComponentFactory(componentContext)
 
     override fun openDetails(task: Task) {

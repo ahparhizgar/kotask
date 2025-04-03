@@ -25,3 +25,7 @@ data class DefaultTaskOperationComponent(
             repository.updateDoneStatus(task.id, done)
         }
 }
+
+class FakeTaskOperationComponent(override val task: Task) : TaskOperationComponent {
+    override fun setDone(done: Boolean): Job = Job()
+}

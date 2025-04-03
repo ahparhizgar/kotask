@@ -11,14 +11,14 @@ import io.amirhparhizgar.kotask.list.TaskListComponent
 
 @Composable
 fun TaskListContent(
-    listComponent: TaskListComponent,
-    modifier: Modifier,
-    component: MultiPaneTasksComponent,
+    component: TaskListComponent,
+    addComponent: AddTaskComponent,
+    modifier: Modifier = Modifier,
 ) {
-    val tasks by listComponent.items.subscribeAsState()
+    val tasks by component.items.subscribeAsState()
     LazyColumn(modifier = modifier.fillMaxSize()) {
         item {
-            AddTaskContent(component.addComponent)
+            AddTaskContent(addComponent)
         }
         items(tasks) {
             Task(component = it)

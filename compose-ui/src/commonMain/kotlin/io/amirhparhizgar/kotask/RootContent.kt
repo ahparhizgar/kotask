@@ -16,7 +16,7 @@ fun RootContent(
 ) {
     MaterialTheme {
         Surface(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.systemBars)) {
-            TaskList(component = component)
+            MultiPaneTasksContent(component = component)
         }
     }
 }

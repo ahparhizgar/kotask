@@ -7,7 +7,9 @@ import androidx.compose.ui.test.runDesktopComposeUiTest
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.provideRoborazziContext
 import io.github.takahirom.roborazzi.captureRoboImage
+import io.kotest.core.names.TestName
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.core.spec.style.scopes.addTest
 import sergio.sastre.composable.preview.scanner.jvm.JvmAnnotationScanner
 import java.io.File
 
@@ -23,20 +25,19 @@ class PreviewScreenshotTest : FunSpec({
         .includePrivatePreviews()
         .getPreviews()
     val roborazziContext = provideRoborazziContext()
-    if (roborazziContext.options.taskType.isEnabled()) {
-        previews.forEach { preview ->
-            test(preview.methodName) {
-                runDesktopComposeUiTest {
-                    setContent {
-                        preview()
-                    }
-                    waitForIdle()
-                    scene.size = scene.calculateContentSize()
-                    onRoot().captureRoboImage(
-                        file = File("build/outputs/roborazzi/${preview.methodName}.png"),
-                        roborazziOptions = roborazziContext.options,
-                    )
+    val isEnabled = roborazziContext.options.taskType.isEnabled()
+    previews.forEach { preview ->
+        addTest(testName = TestName(preview.methodName), disabled = !isEnabled, config = null) {
+            runDesktopComposeUiTest {
+                setContent {
+                    preview()
                 }
+                waitForIdle()
+                scene.size = scene.calculateContentSize()
+                onRoot().captureRoboImage(
+                    file = File("build/outputs/roborazzi/${preview.methodName}.png"),
+                    roborazziOptions = roborazziContext.options,
+                )
             }
         }
     }

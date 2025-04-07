@@ -25,8 +25,14 @@ class SampleUiTest {
                             DefaultTaskListComponent(
                                 componentContext = it,
                                 repo = taskRepository,
-                                taskOperationFactory = { task ->
-                                    DefaultTaskOperationComponent(task, taskRepository)
+                                taskItemFactory = { task ->
+                                    DefaultTaskItemComponent(
+                                        task = task,
+                                        taskOperationComponent = DefaultTaskOperationComponent(
+                                            task.id,
+                                            taskRepository,
+                                        ),
+                                    )
                                 },
                             )
                         },
@@ -35,6 +41,10 @@ class SampleUiTest {
                                 id = id,
                                 context = c,
                                 repository = taskRepository,
+                                taskOperationComponent = DefaultTaskOperationComponent(
+                                    taskId = id,
+                                    repository = taskRepository,
+                                ),
                             )
                         },
                         addComponentFactory = { c ->

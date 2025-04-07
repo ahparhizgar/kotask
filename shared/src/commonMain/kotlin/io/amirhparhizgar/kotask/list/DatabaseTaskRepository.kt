@@ -4,6 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import io.amirhparhizgar.kotask.Task
 import io.amirhparhizgar.kotask.database.DatabaseFactory
+import io.amirhparhizgar.kotast.database.TaskItemEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
@@ -28,14 +29,7 @@ class DatabaseTaskRepository(
                         .asFlow()
                         .mapToList(currentCoroutineContext())
                         .map { entities ->
-                            entities.map { entity ->
-                                Task(
-                                    id = entity.id.toString(),
-                                    title = entity.text,
-                                    isDone = entity.isDone != 0L,
-                                    dueDate = entity.dueDate?.let { LocalDate.fromEpochDays(it.toInt()) },
-                                )
-                            }
+                            entities.map(::mapToTask)
                         },
                 )
             }
@@ -69,13 +63,15 @@ class DatabaseTaskRepository(
                 .taskDatabaseQueries
                 .select(id.toLong())
                 .executeAsOne()
-                .let { entity ->
-                    Task(
-                        id = entity.id.toString(),
-                        title = entity.text,
-                        isDone = entity.isDone != 0L,
-                        dueDate = entity.dueDate?.let { LocalDate.fromEpochDays(it.toInt()) },
-                    )
-                }
+                .let(::mapToTask)
         }
+
+    private fun mapToTask(entity: TaskItemEntity): Task =
+        Task(
+            id = entity.id.toString(),
+            title = entity.text,
+            isDone = entity.isDone != 0L,
+            dueDate = entity.dueDate?.let { LocalDate.fromEpochDays(it.toInt()) },
+            isImportant = false,
+        )
 }

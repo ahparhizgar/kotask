@@ -27,10 +27,13 @@ class TaskListOperationsIntegrationTest : BehaviorSpec({
         val component = DefaultTaskListComponent(
             componentContext = context,
             repo = repo,
-            taskOperationFactory = { task ->
-                DefaultTaskOperationComponent(
-                    task,
-                    repo,
+            taskItemFactory = { task ->
+                DefaultTaskItemComponent(
+                    task = task,
+                    taskOperationComponent = DefaultTaskOperationComponent(
+                        taskId = task.id,
+                        repository = repo,
+                    ),
                 )
             },
         )

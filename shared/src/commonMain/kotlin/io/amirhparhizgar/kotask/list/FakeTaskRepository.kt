@@ -9,8 +9,8 @@ import kotlin.random.Random
 
 class FakeTaskRepository(
     initialTasks: List<Task> = listOf(
-        Task(id = "1", title = "Buy milk", isDone = false),
-        Task(id = "2", title = "Walk the dog", isDone = false),
+        Task(id = "1", title = "Buy milk", isDone = false, isImportant = false),
+        Task(id = "2", title = "Walk the dog", isDone = false, isImportant = true),
     ),
 ) : TaskRepository {
     private val _tasks =
@@ -23,7 +23,13 @@ class FakeTaskRepository(
         dueDate: LocalDate?,
     ): String {
         val id = Random.nextInt().toString()
-        _tasks.value += Task(id = id, title = title, isDone = false, dueDate = dueDate)
+        _tasks.value += Task(
+            id = id,
+            title = title,
+            isDone = false,
+            dueDate = dueDate,
+            isImportant = false,
+        )
         return id
     }
 

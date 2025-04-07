@@ -1,6 +1,5 @@
 package io.amirhparhizgar.kotask.taskoperation
 
-import io.amirhparhizgar.kotask.Task
 import io.amirhparhizgar.kotask.list.TaskRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -9,23 +8,37 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 interface TaskOperationComponent {
-    val task: Task
+    fun setTitle(title: String): Job
 
     fun setDone(done: Boolean): Job
+
+    fun setImportance(isImportant: Boolean): Job
 }
 
 data class DefaultTaskOperationComponent(
-    override val task: Task,
+    private val taskId: String,
     private val repository: TaskRepository,
 ) : TaskOperationComponent {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
+    override fun setTitle(title: String): Job {
+        TODO("Not yet implemented")
+    }
+
     override fun setDone(done: Boolean): Job =
         coroutineScope.launch {
-            repository.updateDoneStatus(task.id, done)
+            repository.updateDoneStatus(taskId, done)
         }
+
+    override fun setImportance(isImportant: Boolean): Job {
+        TODO("Not yet implemented")
+    }
 }
 
-class FakeTaskOperationComponent(override val task: Task) : TaskOperationComponent {
+class FakeTaskOperationComponent : TaskOperationComponent {
+    override fun setTitle(title: String): Job = Job()
+
     override fun setDone(done: Boolean): Job = Job()
+
+    override fun setImportance(isImportant: Boolean): Job = Job()
 }

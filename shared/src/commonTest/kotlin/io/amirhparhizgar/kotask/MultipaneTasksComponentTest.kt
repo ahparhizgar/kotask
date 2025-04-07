@@ -37,13 +37,27 @@ class MultipaneTasksComponentTest : BehaviorSpec({
                 DefaultTaskListComponent(
                     componentContext = it,
                     repo = repository,
-                    taskOperationFactory = {
-                        DefaultTaskOperationComponent(it, repository)
+                    taskItemFactory = { t ->
+                        DefaultTaskItemComponent(
+                            task = t,
+                            taskOperationComponent = DefaultTaskOperationComponent(
+                                taskId = t.id,
+                                repository = repository,
+                            ),
+                        )
                     },
                 )
             },
             editComponentFactory = { c, id ->
-                DefaultEditTaskComponent(id = id, context = c, repository = repository)
+                DefaultEditTaskComponent(
+                    id = id,
+                    context = c,
+                    repository = repository,
+                    taskOperationComponent = DefaultTaskOperationComponent(
+                        taskId = id,
+                        repository = repository,
+                    ),
+                )
             },
             addComponentFactory = {
                 DefaultAddTaskComponent(

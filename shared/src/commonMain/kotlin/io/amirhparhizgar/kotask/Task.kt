@@ -7,6 +7,7 @@ data class Task(
     val title: String,
     val isDone: Boolean,
     val dueDate: LocalDate? = null,
+    val isImportant: Boolean,
 )
 
 object FakeTaskFactory {
@@ -15,5 +16,6 @@ object FakeTaskFactory {
             id = "1",
             title = "Task 1",
             isDone = false,
+            isImportant = false,
         )
 }

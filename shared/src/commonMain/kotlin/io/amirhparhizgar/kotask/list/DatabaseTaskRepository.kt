@@ -40,7 +40,7 @@ class DatabaseTaskRepository(
     ) = withContext(dispatcher) {
         with(databaseFactory.getDatabase()) {
             transactionWithResult {
-                taskDatabaseQueries.add(text = title, dueDate = dueDate?.toEpochDays()?.toLong())
+                taskDatabaseQueries.add(title = title, dueDate = dueDate?.toEpochDays()?.toLong())
                 taskDatabaseQueries.lastId().executeAsOne().toString()
             }
         }
@@ -66,12 +66,32 @@ class DatabaseTaskRepository(
                 .let(::mapToTask)
         }
 
+    override suspend fun setImportant(
+        id: String,
+        important: Boolean,
+    ) {
+        databaseFactory.getDatabase().taskDatabaseQueries.updateIsImportant(
+            id = id.toLong(),
+            isImportant = if (important) 1 else 0,
+        )
+    }
+
+    override suspend fun updateTitle(
+        id: String,
+        title: String,
+    ) {
+        databaseFactory.getDatabase().taskDatabaseQueries.updateTitle(
+            id = id.toLong(),
+            title = title,
+        )
+    }
+
     private fun mapToTask(entity: TaskItemEntity): Task =
         Task(
             id = entity.id.toString(),
-            title = entity.text,
+            title = entity.title,
             isDone = entity.isDone != 0L,
             dueDate = entity.dueDate?.let { LocalDate.fromEpochDays(it.toInt()) },
-            isImportant = false,
+            isImportant = entity.isImportant != 0L,
         )
 }

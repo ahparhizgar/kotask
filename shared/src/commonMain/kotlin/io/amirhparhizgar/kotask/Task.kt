@@ -18,4 +18,12 @@ object FakeTaskFactory {
             isDone = false,
             isImportant = false,
         )
+
+    fun createNewlyAdded() =
+        Task(
+            id = "new",
+            title = "New Task",
+            isDone = false,
+            isImportant = false,
+        )
 }

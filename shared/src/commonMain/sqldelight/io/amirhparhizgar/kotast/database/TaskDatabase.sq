@@ -1,13 +1,14 @@
 CREATE TABLE IF NOT EXISTS TaskItemEntity (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    text TEXT NOT NULL,
+    title TEXT NOT NULL,
     isDone INTEGER NOT NULL DEFAULT 0,
+    isImportant INTEGER NOT NULL DEFAULT 0,
     dueDate INTEGER
 );
 
 add:
-INSERT INTO TaskItemEntity (text, dueDate)
-VALUES (:text, :dueDate);
+INSERT INTO TaskItemEntity (title, dueDate)
+VALUES (:title, :dueDate);
 
 lastId:
 SELECT last_insert_rowid();
@@ -26,3 +27,12 @@ UPDATE TaskItemEntity
 SET isDone = :isDone
 WHERE id = :id;
 
+updateIsImportant:
+UPDATE TaskItemEntity
+SET isImportant = : isImportant
+WHERE id = :id;
+
+updateTitle:
+UPDATE TaskItemEntity
+SET title = :title
+WHERE id = :id;

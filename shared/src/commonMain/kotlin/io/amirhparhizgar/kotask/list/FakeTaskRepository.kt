@@ -4,6 +4,7 @@ import io.amirhparhizgar.kotask.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.datetime.LocalDate
 import kotlin.random.Random
 
@@ -49,4 +50,29 @@ class FakeTaskRepository(
     }
 
     override suspend fun get(id: String): Task = _tasks.value.first { it.id == id }
+
+    override suspend fun setImportant(
+        id: String,
+        important: Boolean,
+    ) {
+        updateTask(id) {
+            it.copy(isImportant = important)
+        }
+    }
+
+    override suspend fun updateTitle(
+        id: String,
+        title: String,
+    ) {
+        updateTask(id) {
+            it.copy(title = title)
+        }
+    }
+
+    private fun updateTask(
+        id: String,
+        op: (Task) -> Task,
+    ) {
+        _tasks.update { it.map { t -> if (t.id == id) op(t) else t } }
+    }
 }

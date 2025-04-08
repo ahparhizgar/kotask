@@ -21,18 +21,20 @@ data class DefaultTaskOperationComponent(
 ) : TaskOperationComponent {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
-    override fun setTitle(title: String): Job {
-        TODO("Not yet implemented")
-    }
+    override fun setTitle(title: String): Job =
+        coroutineScope.launch {
+            repository.updateTitle(taskId, title)
+        }
 
     override fun setDone(done: Boolean): Job =
         coroutineScope.launch {
             repository.updateDoneStatus(taskId, done)
         }
 
-    override fun setImportance(isImportant: Boolean): Job {
-        TODO("Not yet implemented")
-    }
+    override fun setImportance(isImportant: Boolean): Job =
+        coroutineScope.launch {
+            repository.setImportant(taskId, isImportant)
+        }
 }
 
 class FakeTaskOperationComponent : TaskOperationComponent {

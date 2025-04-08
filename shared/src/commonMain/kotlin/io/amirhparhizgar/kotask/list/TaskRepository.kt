@@ -9,7 +9,7 @@ interface TaskRepository {
 
     suspend fun addTask(
         title: String,
-        dueDate: LocalDate? = null
+        dueDate: LocalDate? = null,
     ): String
 
     suspend fun updateDoneStatus(
@@ -18,4 +18,14 @@ interface TaskRepository {
     )
 
     suspend fun get(id: String): Task
+
+    suspend fun setImportant(
+        id: String,
+        important: Boolean,
+    )
+
+    suspend fun updateTitle(
+        id: String,
+        title: String,
+    )
 }

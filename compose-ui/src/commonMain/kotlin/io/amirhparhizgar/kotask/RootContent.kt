@@ -41,7 +41,7 @@ fun RootContent(
                     TaskListContent(component = it.instance, addComponent = component.addComponent)
                 },
                 extraChild = {
-                    Text("Edit task with id: ${it.configuration.taskId}")
+                    EditTaskContent(editTaskComponent = it.instance)
                 },
             )
         }

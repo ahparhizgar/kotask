@@ -11,7 +11,6 @@ import io.amirhparhizgar.kotask.MultiPaneTasksComponent
 import io.amirhparhizgar.kotask.Task
 import io.amirhparhizgar.kotask.TaskItemComponent
 import io.amirhparhizgar.kotask.taskoperation.DefaultTaskOperationComponent
-import io.amirhparhizgar.kotask.taskoperation.FakeTaskOperationComponent
 import io.amirhparhizgar.kotask.taskoperation.TaskOperationComponent
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.parameter.parametersOf
@@ -61,7 +60,10 @@ val TaskListModule =
                 id = id,
                 context = ctx,
                 repository = get(),
-                taskOperationComponent = FakeTaskOperationComponent(),
+                taskOperationComponent = DefaultTaskOperationComponent(
+                    taskId = id,
+                    repository = get(),
+                ),
             )
         }
 

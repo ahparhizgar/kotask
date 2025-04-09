@@ -30,9 +30,10 @@ class TaskListComponentTest : FunSpec({
         component = DefaultTaskListComponent(
             componentContext = context,
             repo = repo,
-            taskItemFactory = {
-                FakeTaskItemComponent(it, FakeTaskOperationComponent())
+            taskItemFactory = { t, _ ->
+                FakeTaskItemComponent(t, FakeTaskOperationComponent())
             },
+            onEditRequested = {},
         )
     }
 

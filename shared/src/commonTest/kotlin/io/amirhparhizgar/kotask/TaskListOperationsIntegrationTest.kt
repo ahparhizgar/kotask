@@ -27,16 +27,17 @@ class TaskListOperationsIntegrationTest : BehaviorSpec({
         val component = DefaultTaskListComponent(
             componentContext = context,
             repo = repo,
-            taskItemFactory = { task ->
+            taskItemFactory = { task, _ ->
                 DefaultTaskItemComponent(
                     task = task,
                     taskOperationComponent = DefaultTaskOperationComponent(
                         taskId = task.id,
                         repository = repo,
                     ),
-                    onEdit = onEdit,
+                    onEdit = {},
                 )
             },
+            onEditRequested = { },
         )
         lifecycleRegistry.resume()
         testCoroutineScheduler.advanceUntilIdle()

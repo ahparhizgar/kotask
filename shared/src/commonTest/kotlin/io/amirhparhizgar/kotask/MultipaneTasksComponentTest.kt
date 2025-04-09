@@ -33,20 +33,21 @@ class MultipaneTasksComponentTest : BehaviorSpec({
         val lifecycle = LifecycleRegistry()
         val multiPaneTasksComponent: MultiPaneTasksComponent = DefaultMultiPaneTasksComponent(
             componentContext = createComponentContext(lifecycle),
-            listComponentFactory = {
+            listComponentFactory = { c, onEdit ->
                 DefaultTaskListComponent(
-                    componentContext = it,
+                    componentContext = c,
                     repo = repository,
-                    taskItemFactory = { t ->
+                    taskItemFactory = { t, onEdit2 ->
                         DefaultTaskItemComponent(
                             task = t,
                             taskOperationComponent = DefaultTaskOperationComponent(
                                 taskId = t.id,
                                 repository = repository,
                             ),
-                            onEdit = onEdit,
+                            onEdit = onEdit2,
                         )
                     },
+                    onEditRequested = onEdit,
                 )
             },
             editComponentFactory = { c, id ->

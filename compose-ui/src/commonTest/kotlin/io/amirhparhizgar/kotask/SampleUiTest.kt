@@ -18,38 +18,39 @@ class SampleUiTest {
             val lifecycle = LifecycleRegistry()
             val root =
                 runOnUiThread {
-                    val taskRepository = FakeTaskRepository()
+                    val repository = FakeTaskRepository()
                     DefaultMultiPaneTasksComponent(
                         componentContext = DefaultComponentContext(lifecycle = lifecycle),
-                        listComponentFactory = {
+                        listComponentFactory = { c, onEdit ->
                             DefaultTaskListComponent(
-                                componentContext = it,
-                                repo = taskRepository,
-                                taskItemFactory = { task ->
+                                componentContext = c,
+                                repo = repository,
+                                taskItemFactory = { t, onEdit2 ->
                                     DefaultTaskItemComponent(
-                                        task = task,
+                                        task = t,
                                         taskOperationComponent = DefaultTaskOperationComponent(
-                                            task.id,
-                                            taskRepository,
+                                            taskId = t.id,
+                                            repository = repository,
                                         ),
-                                        onEdit = onEdit,
+                                        onEdit = onEdit2,
                                     )
                                 },
+                                onEditRequested = onEdit,
                             )
                         },
                         editComponentFactory = { c, id ->
                             DefaultEditTaskComponent(
                                 id = id,
                                 context = c,
-                                repository = taskRepository,
+                                repository = repository,
                                 taskOperationComponent = DefaultTaskOperationComponent(
                                     taskId = id,
-                                    repository = taskRepository,
+                                    repository = repository,
                                 ),
                             )
                         },
                         addComponentFactory = { c ->
-                            DefaultAddTaskComponent(context = c, repository = taskRepository)
+                            DefaultAddTaskComponent(context = c, repository = repository)
                         },
                     )
                 }

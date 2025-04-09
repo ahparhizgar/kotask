@@ -18,7 +18,7 @@ fun Task(
     component: TaskItemComponent,
     modifier: Modifier = Modifier,
 ) {
-    Card(shape = MaterialTheme.shapes.small) {
+    Card(shape = MaterialTheme.shapes.small, onClick = { component.onEditClick() }) {
         Row(
             modifier = modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp),

@@ -28,7 +28,7 @@ class ViewSelector
 @OptIn(ExperimentalDecomposeApi::class)
 class DefaultMultiPaneTasksComponent(
     componentContext: ComponentContext,
-    private val listComponentFactory: (context: ComponentContext) -> TaskListComponent,
+    private val listComponentFactory: (context: ComponentContext, onEdit: (id: String) -> Unit) -> TaskListComponent,
     private val editComponentFactory: (context: ComponentContext, id: String) -> EditTaskComponent,
     addComponentFactory: (context: ComponentContext) -> AddTaskComponent,
 ) : ComponentContext by componentContext, MultiPaneTasksComponent {
@@ -40,7 +40,7 @@ class DefaultMultiPaneTasksComponent(
             serializers = null,
             handleBackButton = true,
             mainFactory = { _, ctx -> ViewSelector() },
-            detailsFactory = { _, ctx -> listComponentFactory(ctx) },
+            detailsFactory = { _, ctx -> listComponentFactory(ctx, ::navigateToEdit) },
             extraFactory = { cfg, ctx -> editComponentFactory(ctx, cfg.taskId) },
         )
 
@@ -56,6 +56,12 @@ class DefaultMultiPaneTasksComponent(
     override fun setMode(mode: ChildPanelsMode) {
         navigation.navigate { state ->
             state.copy(mode = mode)
+        }
+    }
+
+    private fun navigateToEdit(taskId: String) {
+        navigation.navigate { state ->
+            state.copy(extra = EditTask(taskId))
         }
     }
 }

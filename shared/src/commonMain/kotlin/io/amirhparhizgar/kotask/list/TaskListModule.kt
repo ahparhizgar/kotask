@@ -24,20 +24,22 @@ val TaskListModule =
             DatabaseTaskRepository(databaseFactory = get(), dispatcher = Dispatchers.IO)
         }
 
-        factory<TaskListComponent> { (context: ComponentContext) ->
+        factory<TaskListComponent> { (context: ComponentContext, onEditRequested: (id: String) -> Unit) ->
             DefaultTaskListComponent(
                 componentContext = context,
                 repo = get(),
-                taskItemFactory = { task: Task ->
-                    get<TaskItemComponent> { parametersOf(task) }
+                taskItemFactory = { task: Task, onEdit: () -> Unit ->
+                    get<TaskItemComponent> { parametersOf(task, onEdit) }
                 },
+                onEditRequested = onEditRequested,
             )
         }
 
-        factory<TaskItemComponent> { (task: Task) ->
+        factory<TaskItemComponent> { (task: Task, onEdit: () -> Unit) ->
             DefaultTaskItemComponent(
                 task = task,
                 taskOperationComponent = get { parametersOf(task.id) },
+                onEdit = onEdit,
             )
         }
         factory<TaskOperationComponent> { (taskId: String) ->
@@ -66,11 +68,11 @@ val TaskListModule =
         factory<MultiPaneTasksComponent> { (context: ComponentContext) ->
             DefaultMultiPaneTasksComponent(
                 componentContext = context,
-                listComponentFactory = { c: ComponentContext ->
-                    get<TaskListComponent> { parametersOf(c) }
+                listComponentFactory = { c: ComponentContext, onEdit: (id: String) -> Unit ->
+                    get<TaskListComponent> { parametersOf(c, onEdit) }
                 },
                 editComponentFactory = { c, id: String ->
-                    get<DefaultEditTaskComponent> { parametersOf(c, id) }
+                    get<EditTaskComponent> { parametersOf(c, id) }
                 },
                 addComponentFactory = { c: ComponentContext ->
                     get<AddTaskComponent> { parametersOf(c) }

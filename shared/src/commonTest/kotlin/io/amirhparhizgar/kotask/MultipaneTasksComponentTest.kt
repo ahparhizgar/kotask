@@ -44,6 +44,7 @@ class MultipaneTasksComponentTest : BehaviorSpec({
                                 taskId = t.id,
                                 repository = repository,
                             ),
+                            onEdit = onEdit,
                         )
                     },
                 )

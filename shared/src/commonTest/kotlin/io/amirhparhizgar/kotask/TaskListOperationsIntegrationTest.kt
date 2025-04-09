@@ -34,6 +34,7 @@ class TaskListOperationsIntegrationTest : BehaviorSpec({
                         taskId = task.id,
                         repository = repo,
                     ),
+                    onEdit = onEdit,
                 )
             },
         )

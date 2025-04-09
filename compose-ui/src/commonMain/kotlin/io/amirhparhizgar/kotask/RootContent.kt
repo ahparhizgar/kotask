@@ -29,7 +29,7 @@ fun RootContent(
 ) {
     MaterialTheme {
         Surface(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.systemBars)) {
-            component.setMode(ChildPanelsMode.TRIPLE)
+//            component.setMode(ChildPanelsMode.TRIPLE)
             val panels by component.panels.subscribeAsState()
 
             ChildPanels(

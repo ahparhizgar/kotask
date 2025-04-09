@@ -24,7 +24,8 @@ interface TaskListComponent {
 class DefaultTaskListComponent(
     componentContext: ComponentContext,
     private val repo: TaskRepository,
-    private val taskItemFactory: (task: Task) -> TaskItemComponent,
+    private val taskItemFactory: (task: Task, onEditRequested: () -> Unit) -> TaskItemComponent,
+    private val onEditRequested: (id: String) -> Unit,
 ) : TaskListComponent,
     ComponentContext by componentContext {
     private val coroutineScope = componentCoroutineScope()
@@ -37,7 +38,7 @@ class DefaultTaskListComponent(
             job =
                 coroutineScope.launch {
                     repo.taskStream.collect {
-                        _items.value = it.map(taskItemFactory)
+                        _items.value = it.map { t -> taskItemFactory(t, { onEditRequested(t.id) }) }
                     }
                 }
         }

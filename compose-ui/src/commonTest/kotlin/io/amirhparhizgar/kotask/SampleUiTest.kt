@@ -32,6 +32,7 @@ class SampleUiTest {
                                             task.id,
                                             taskRepository,
                                         ),
+                                        onEdit = onEdit,
                                     )
                                 },
                             )

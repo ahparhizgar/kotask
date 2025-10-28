@@ -1,6 +1,5 @@
 package io.amirhparhizgar.kotask.list
 
-import com.arkivanov.decompose.ComponentContext
 import io.amirhparhizgar.kotask.AddTaskComponent
 import io.amirhparhizgar.kotask.DefaultAddTaskComponent
 import io.amirhparhizgar.kotask.DefaultEditTaskComponent
@@ -8,12 +7,12 @@ import io.amirhparhizgar.kotask.DefaultMultiPaneTasksComponent
 import io.amirhparhizgar.kotask.DefaultTaskItemComponent
 import io.amirhparhizgar.kotask.EditTaskComponent
 import io.amirhparhizgar.kotask.MultiPaneTasksComponent
-import io.amirhparhizgar.kotask.Task
 import io.amirhparhizgar.kotask.TaskItemComponent
 import io.amirhparhizgar.kotask.taskoperation.DefaultTaskOperationComponent
 import io.amirhparhizgar.kotask.taskoperation.TaskOperationComponent
 import kotlinx.coroutines.Dispatchers
-import org.koin.core.parameter.parametersOf
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val TaskListModule =
@@ -23,47 +22,21 @@ val TaskListModule =
             DatabaseTaskRepository(databaseFactory = get(), dispatcher = Dispatchers.IO)
         }
 
-        factory<TaskListComponent.Factory> {
-            DefaultTaskListComponent.Factory(
-                repo = get(),
-                taskItemFactory = get(),
-            )
-        }
+        factoryOf(DefaultTaskListComponent::Factory)
+            .bind<TaskListComponent.Factory>()
 
-        factory<TaskItemComponent> { (task: Task, onEdit: () -> Unit) ->
-            DefaultTaskItemComponent(
-                task = task,
-                taskOperationComponent = get { parametersOf(task.id) },
-                onEdit = onEdit,
-            )
-        }
-        factory<TaskOperationComponent> { (taskId: String) ->
-            DefaultTaskOperationComponent(
-                taskId = taskId,
-                repository = get(),
-            )
-        }
+        factoryOf(DefaultTaskItemComponent::Factory)
+            .bind<TaskItemComponent.Factory>()
 
-        factory<AddTaskComponent> { (context: ComponentContext) ->
-            DefaultAddTaskComponent(
-                context = context,
-                repository = get(),
-            )
-        }
+        factoryOf(DefaultTaskOperationComponent::Factory)
+            .bind<TaskOperationComponent.Factory>()
 
-        factory<EditTaskComponent.Factory> {
-            DefaultEditTaskComponent.Factory(
-                repository = get(),
-                taskOperationComponentFactory = get()
-            )
-        }
+        factoryOf(DefaultAddTaskComponent::Factory)
+            .bind<AddTaskComponent.Factory>()
 
-        factory<MultiPaneTasksComponent> { (context: ComponentContext) ->
-            DefaultMultiPaneTasksComponent(
-                componentContext = context,
-                listComponentFactory = get(),
-                editComponentFactory = get(),
-                addComponentFactory = get(),
-            )
-        }
+        factoryOf(DefaultEditTaskComponent::Factory)
+            .bind<EditTaskComponent.Factory>()
+
+        factoryOf(DefaultMultiPaneTasksComponent::Factory)
+            .bind<MultiPaneTasksComponent.Factory>()
     }

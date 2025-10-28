@@ -7,7 +7,6 @@ import com.arkivanov.decompose.retainedComponent
 import io.amirhparhizgar.kotask.MultiPaneTasksComponent
 import io.amirhparhizgar.kotask.RootContent
 import org.koin.android.ext.android.getKoin
-import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +14,7 @@ class MainActivity : ComponentActivity() {
 
         val root =
             retainedComponent { componentContext ->
-                getKoin().get<MultiPaneTasksComponent> { parametersOf(componentContext) }
+                getKoin().get<MultiPaneTasksComponent.Factory>().create(componentContext)
             }
 
         setContent {

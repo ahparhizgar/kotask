@@ -10,7 +10,6 @@ import io.amirhparhizgar.kotask.MultiPaneTasksComponent
 import io.amirhparhizgar.kotask.RootContent
 import io.amirhparhizgar.kotask.di.AppModule
 import org.koin.core.context.startKoin
-import org.koin.core.parameter.parametersOf
 
 fun main() {
     val koin =
@@ -22,7 +21,8 @@ fun main() {
 
     val root =
         runOnUiThread {
-            koin.get<MultiPaneTasksComponent> { parametersOf(DefaultComponentContext(lifecycle = lifecycle)) }
+            koin.get<MultiPaneTasksComponent.Factory>()
+                .create(DefaultComponentContext(lifecycle = lifecycle))
         }
 
     application {

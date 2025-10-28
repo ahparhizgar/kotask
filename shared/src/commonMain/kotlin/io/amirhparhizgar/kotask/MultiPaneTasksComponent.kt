@@ -19,6 +19,12 @@ interface MultiPaneTasksComponent {
     fun openDetails(task: Task)
 
     fun setMode(mode: ChildPanelsMode)
+
+    interface Factory {
+        fun create(
+            componentContext: ComponentContext,
+        ): MultiPaneTasksComponent
+    }
 }
 
 data class EditTask(val taskId: String)
@@ -63,5 +69,21 @@ class DefaultMultiPaneTasksComponent(
         navigation.navigate { state ->
             state.copy(extra = EditTask(taskId))
         }
+    }
+
+    class Factory(
+        private val listComponentFactory: TaskListComponent.Factory,
+        private val editComponentFactory: EditTaskComponent.Factory,
+        private val addComponentFactory: AddTaskComponent.Factory,
+    ) : MultiPaneTasksComponent.Factory {
+        override fun create(
+            componentContext: ComponentContext,
+        ): MultiPaneTasksComponent =
+            DefaultMultiPaneTasksComponent(
+                componentContext = componentContext,
+                listComponentFactory = listComponentFactory,
+                editComponentFactory = editComponentFactory,
+                addComponentFactory = addComponentFactory,
+            )
     }
 }

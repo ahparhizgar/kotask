@@ -23,14 +23,10 @@ val TaskListModule =
             DatabaseTaskRepository(databaseFactory = get(), dispatcher = Dispatchers.IO)
         }
 
-        factory<TaskListComponent> { (context: ComponentContext, onEditRequested: (id: String) -> Unit) ->
-            DefaultTaskListComponent(
-                componentContext = context,
+        factory<TaskListComponent.Factory> {
+            DefaultTaskListComponent.Factory(
                 repo = get(),
-                taskItemFactory = { task: Task, onEdit: () -> Unit ->
-                    get<TaskItemComponent> { parametersOf(task, onEdit) }
-                },
-                onEditRequested = onEditRequested,
+                taskItemFactory = get(),
             )
         }
 
@@ -55,30 +51,19 @@ val TaskListModule =
             )
         }
 
-        factory<EditTaskComponent> { (ctx: ComponentContext, id: String) ->
-            DefaultEditTaskComponent(
-                id = id,
-                context = ctx,
+        factory<EditTaskComponent.Factory> {
+            DefaultEditTaskComponent.Factory(
                 repository = get(),
-                taskOperationComponent = DefaultTaskOperationComponent(
-                    taskId = id,
-                    repository = get(),
-                ),
+                taskOperationComponentFactory = get()
             )
         }
 
         factory<MultiPaneTasksComponent> { (context: ComponentContext) ->
             DefaultMultiPaneTasksComponent(
                 componentContext = context,
-                listComponentFactory = { c: ComponentContext, onEdit: (id: String) -> Unit ->
-                    get<TaskListComponent> { parametersOf(c, onEdit) }
-                },
-                editComponentFactory = { c, id: String ->
-                    get<EditTaskComponent> { parametersOf(c, id) }
-                },
-                addComponentFactory = { c: ComponentContext ->
-                    get<AddTaskComponent> { parametersOf(c) }
-                },
+                listComponentFactory = get(),
+                editComponentFactory = get(),
+                addComponentFactory = get(),
             )
         }
     }

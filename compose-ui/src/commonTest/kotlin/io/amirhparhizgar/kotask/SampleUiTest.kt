@@ -21,37 +21,24 @@ class SampleUiTest {
                     val repository = FakeTaskRepository()
                     DefaultMultiPaneTasksComponent(
                         componentContext = DefaultComponentContext(lifecycle = lifecycle),
-                        listComponentFactory = { c, onEdit ->
-                            DefaultTaskListComponent(
-                                componentContext = c,
+                        listComponentFactory =
+                            DefaultTaskListComponent.Factory(
                                 repo = repository,
-                                taskItemFactory = { t, onEdit2 ->
-                                    DefaultTaskItemComponent(
-                                        task = t,
-                                        taskOperationComponent = DefaultTaskOperationComponent(
-                                            taskId = t.id,
+                                taskItemFactory =
+                                    DefaultTaskItemComponent.Factory(
+                                        taskOperationComponentFactory = DefaultTaskOperationComponent.Factory(
                                             repository = repository,
                                         ),
-                                        onEdit = onEdit2,
-                                    )
-                                },
-                                onEditRequested = onEdit,
-                            )
-                        },
-                        editComponentFactory = { c, id ->
-                            DefaultEditTaskComponent(
-                                id = id,
-                                context = c,
+                                    ),
+                            ),
+                        editComponentFactory =
+                            DefaultEditTaskComponent.Factory(
                                 repository = repository,
-                                taskOperationComponent = DefaultTaskOperationComponent(
-                                    taskId = id,
+                                taskOperationComponentFactory = DefaultTaskOperationComponent.Factory(
                                     repository = repository,
                                 ),
-                            )
-                        },
-                        addComponentFactory = { c ->
-                            DefaultAddTaskComponent(context = c, repository = repository)
-                        },
+                            ),
+                        addComponentFactory = DefaultAddTaskComponent.Factory(repository = repository),
                     )
                 }
             setContent {

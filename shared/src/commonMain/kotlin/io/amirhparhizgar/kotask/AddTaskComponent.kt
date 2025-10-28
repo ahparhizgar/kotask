@@ -23,6 +23,10 @@ interface AddTaskComponent {
         val dueDate: LocalDate? = null,
         val addedTask: Task? = null,
     )
+
+    interface Factory {
+        fun create(context: ComponentContext): AddTaskComponent
+    }
 }
 
 class DefaultAddTaskComponent(context: ComponentContext, private val repository: TaskRepository) :
@@ -55,4 +59,12 @@ class DefaultAddTaskComponent(context: ComponentContext, private val repository:
                 )
             }
         }
+
+    class Factory(private val repository: TaskRepository) : AddTaskComponent.Factory {
+        override fun create(context: ComponentContext): AddTaskComponent =
+            DefaultAddTaskComponent(
+                context = context,
+                repository = repository,
+            )
+    }
 }

@@ -28,9 +28,9 @@ class ViewSelector
 @OptIn(ExperimentalDecomposeApi::class)
 class DefaultMultiPaneTasksComponent(
     componentContext: ComponentContext,
-    private val listComponentFactory: (context: ComponentContext, onEdit: (id: String) -> Unit) -> TaskListComponent,
-    private val editComponentFactory: (context: ComponentContext, id: String) -> EditTaskComponent,
-    addComponentFactory: (context: ComponentContext) -> AddTaskComponent,
+    private val listComponentFactory: TaskListComponent.Factory,
+    private val editComponentFactory: EditTaskComponent.Factory,
+    addComponentFactory: AddTaskComponent.Factory,
 ) : ComponentContext by componentContext, MultiPaneTasksComponent {
     private val navigation = PanelsNavigation<Unit, Unit, EditTask>()
     override val panels =
@@ -40,12 +40,12 @@ class DefaultMultiPaneTasksComponent(
             serializers = null,
             handleBackButton = true,
             mainFactory = { _, ctx -> ViewSelector() },
-            detailsFactory = { _, ctx -> listComponentFactory(ctx, ::navigateToEdit) },
-            extraFactory = { cfg, ctx -> editComponentFactory(ctx, cfg.taskId) },
+            detailsFactory = { _, ctx -> listComponentFactory.create(ctx, ::navigateToEdit) },
+            extraFactory = { cfg, ctx -> editComponentFactory.create(ctx, cfg.taskId) },
         )
 
     // todo move it to a new component containing list component
-    override val addComponent = addComponentFactory(componentContext)
+    override val addComponent = addComponentFactory.create(componentContext)
 
     override fun openDetails(task: Task) {
         navigation.navigate { state ->

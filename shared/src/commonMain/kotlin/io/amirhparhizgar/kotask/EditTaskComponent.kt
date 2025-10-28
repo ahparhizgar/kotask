@@ -18,6 +18,13 @@ import kotlinx.coroutines.launch
 
 interface EditTaskComponent : TaskOperationComponent {
     val task: Value<LoadingTask>
+
+    interface Factory {
+        fun create(
+            context: ComponentContext,
+            id: String,
+        ): EditTaskComponent
+    }
 }
 
 sealed interface LoadingTask {
@@ -50,6 +57,22 @@ class DefaultEditTaskComponent(
             }
         }
         lifecycle.doOnStop { job?.cancel() }
+    }
+
+    class Factory(
+        private val repository: TaskRepository,
+        private val taskOperationComponentFactory: TaskOperationComponent.Factory,
+    ) : EditTaskComponent.Factory {
+        override fun create(
+            context: ComponentContext,
+            id: String,
+        ): EditTaskComponent =
+            DefaultEditTaskComponent(
+                id = id,
+                context = context,
+                repository = repository,
+                taskOperationComponent = taskOperationComponentFactory.create(id),
+            )
     }
 }
 

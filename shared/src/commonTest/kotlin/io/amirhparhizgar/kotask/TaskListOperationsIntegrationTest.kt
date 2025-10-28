@@ -27,16 +27,12 @@ class TaskListOperationsIntegrationTest : BehaviorSpec({
         val component = DefaultTaskListComponent(
             componentContext = context,
             repo = repo,
-            taskItemFactory = { task, _ ->
-                DefaultTaskItemComponent(
-                    task = task,
-                    taskOperationComponent = DefaultTaskOperationComponent(
-                        taskId = task.id,
+            taskItemFactory =
+                DefaultTaskItemComponent.Factory(
+                    taskOperationComponentFactory = DefaultTaskOperationComponent.Factory(
                         repository = repo,
                     ),
-                    onEdit = {},
-                )
-            },
+                ),
             onEditRequested = { },
         )
         lifecycleRegistry.resume()

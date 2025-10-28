@@ -33,40 +33,19 @@ class MultipaneTasksComponentTest : BehaviorSpec({
         val lifecycle = LifecycleRegistry()
         val multiPaneTasksComponent: MultiPaneTasksComponent = DefaultMultiPaneTasksComponent(
             componentContext = createComponentContext(lifecycle),
-            listComponentFactory = { c, onEdit ->
-                DefaultTaskListComponent(
-                    componentContext = c,
+            listComponentFactory =
+                DefaultTaskListComponent.Factory(
                     repo = repository,
-                    taskItemFactory = { t, onEdit2 ->
-                        DefaultTaskItemComponent(
-                            task = t,
-                            taskOperationComponent = DefaultTaskOperationComponent(
-                                taskId = t.id,
-                                repository = repository,
-                            ),
-                            onEdit = onEdit2,
-                        )
-                    },
-                    onEditRequested = onEdit,
-                )
-            },
-            editComponentFactory = { c, id ->
-                DefaultEditTaskComponent(
-                    id = id,
-                    context = c,
+                    taskItemFactory = DefaultTaskItemComponent.Factory(
+                        DefaultTaskOperationComponent.Factory(repository)
+                    )
+                ),
+            editComponentFactory =
+                DefaultEditTaskComponent.Factory(
                     repository = repository,
-                    taskOperationComponent = DefaultTaskOperationComponent(
-                        taskId = id,
-                        repository = repository,
-                    ),
-                )
-            },
-            addComponentFactory = {
-                DefaultAddTaskComponent(
-                    context = it,
-                    repository = repository,
-                )
-            },
+                    taskOperationComponentFactory = DefaultTaskOperationComponent.Factory(repository = repository),
+                ),
+            addComponentFactory = DefaultAddTaskComponent.Factory(repository = repository),
         )
         lifecycle.resume()
 

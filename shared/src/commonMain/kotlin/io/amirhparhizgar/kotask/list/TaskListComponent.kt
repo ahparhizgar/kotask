@@ -19,12 +19,19 @@ import kotlinx.coroutines.launch
 
 interface TaskListComponent {
     val items: Value<List<TaskItemComponent>>
+
+    interface Factory {
+        fun create(
+            context: ComponentContext,
+            onEditRequested: (id: String) -> Unit
+        ): TaskListComponent
+    }
 }
 
 class DefaultTaskListComponent(
     componentContext: ComponentContext,
     private val repo: TaskRepository,
-    private val taskItemFactory: (task: Task, onEditRequested: () -> Unit) -> TaskItemComponent,
+    private val taskItemFactory: TaskItemComponent.Factory,
     private val onEditRequested: (id: String) -> Unit,
 ) : TaskListComponent,
     ComponentContext by componentContext {
@@ -38,11 +45,28 @@ class DefaultTaskListComponent(
             job =
                 coroutineScope.launch {
                     repo.taskStream.collect {
-                        _items.value = it.map { t -> taskItemFactory(t, { onEditRequested(t.id) }) }
+                        _items.value =
+                            it.map { t -> taskItemFactory.create(t, { onEditRequested(t.id) }) }
                     }
                 }
         }
         lifecycle.doOnStop { job?.cancel() }
+    }
+
+    class Factory(
+        private val repo: TaskRepository,
+        private val taskItemFactory: TaskItemComponent.Factory,
+    ) : TaskListComponent.Factory {
+        override fun create(
+            context: ComponentContext,
+            onEditRequested: (id: String) -> Unit
+        ): TaskListComponent =
+            DefaultTaskListComponent(
+                componentContext = context,
+                repo = repo,
+                taskItemFactory = taskItemFactory,
+                onEditRequested = onEditRequested,
+            )
     }
 }
 

@@ -13,6 +13,10 @@ interface TaskOperationComponent {
     fun setDone(done: Boolean): Job
 
     fun setImportance(isImportant: Boolean): Job
+
+    interface Factory {
+        fun create(taskId: String): TaskOperationComponent
+    }
 }
 
 data class DefaultTaskOperationComponent(
@@ -35,6 +39,16 @@ data class DefaultTaskOperationComponent(
         coroutineScope.launch {
             repository.setImportant(taskId, isImportant)
         }
+
+    class Factory(
+        private val repository: TaskRepository,
+    ) : TaskOperationComponent.Factory {
+        override fun create(taskId: String): TaskOperationComponent =
+            DefaultTaskOperationComponent(
+                taskId = taskId,
+                repository = repository,
+            )
+    }
 }
 
 class FakeTaskOperationComponent : TaskOperationComponent {

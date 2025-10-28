@@ -5,7 +5,6 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
 import io.amirhparhizgar.kotask.list.FakeTaskRepository
-import io.amirhparhizgar.kotask.taskoperation.FakeTaskOperationComponent
 import io.amirhparhizgar.kotask.test.util.MainDispatcherExtension
 import io.amirhparhizgar.kotask.test.util.createComponentContext
 import io.amirhparhizgar.kotask.test.util.testComponent
@@ -30,9 +29,7 @@ class TaskListComponentTest : FunSpec({
         component = DefaultTaskListComponent(
             componentContext = context,
             repo = repo,
-            taskItemFactory = { t, _ ->
-                FakeTaskItemComponent(t, FakeTaskOperationComponent())
-            },
+            taskItemFactory = FakeTaskItemComponent.Factory(),
             onEditRequested = {},
         )
     }

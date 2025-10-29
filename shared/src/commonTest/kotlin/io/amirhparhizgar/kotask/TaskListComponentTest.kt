@@ -35,12 +35,12 @@ class TaskListComponentTest : FunSpec({
     }
 
     testComponent("creates successfully") {
-        component.items.value shouldHaveSize 0
+        component.items.value.items shouldHaveSize 0
     }
 
     testComponent("fetches list") {
         lifecycleRegistry.resume()
         testCoroutineScheduler.runCurrent()
-        component.items.value shouldHaveSize 2
+        component.items.value.items shouldHaveSize 2
     }
 })

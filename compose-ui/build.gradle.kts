@@ -35,6 +35,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
                 implementation(compose.uiTest)
                 api(libs.decompose.decompose)
                 implementation(libs.decompose.extensionsComposeJetbrains)

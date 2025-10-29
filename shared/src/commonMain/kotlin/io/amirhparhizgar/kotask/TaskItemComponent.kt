@@ -38,6 +38,10 @@ class DefaultTaskItemComponent(
     }
 }
 
+class TaskItemConfiguration(
+    val task: Task,
+)
+
 class FakeTaskItemComponent(
     override val task: Task = FakeTaskFactory.create(),
     private val taskOperationComponent: TaskOperationComponent = FakeTaskOperationComponent(),

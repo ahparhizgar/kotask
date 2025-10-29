@@ -11,12 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.Child
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.panels.ChildPanels
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.router.panels.ChildPanels
 import com.arkivanov.decompose.router.panels.ChildPanelsMode
 import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import io.amirhparhizgar.kotask.list.FakeTaskListComponent
 import io.amirhparhizgar.kotask.list.TaskListComponent
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -53,16 +56,20 @@ fun RootContent(
 @Preview
 private fun RootPreview() {
     RootContent(
-        component = FakeMultiPaneTasksComponent(),
+        component = FakeMultiPaneTasksComponent(DefaultComponentContext(LifecycleRegistry())),
     )
 }
 
 @OptIn(ExperimentalDecomposeApi::class)
-class FakeMultiPaneTasksComponent : MultiPaneTasksComponent {
+class FakeMultiPaneTasksComponent(componentContext: ComponentContext) : MultiPaneTasksComponent {
     val viewSelectorChild = Child.Created(Unit, ViewSelector())
     val taskListChild = Child.Created<Unit, TaskListComponent>(
         configuration = Unit,
-        instance = FakeTaskListComponent(emptyList()),
+        instance = FakeTaskListComponent(
+            componentContext = componentContext,
+            itemList = emptyList(),
+            taskItemFactory = FakeTaskItemComponent.Factory()
+        ),
     )
     val editTaskChild =
         Child.Created<EditTask, EditTaskComponent>(EditTask("ID8379234"), FakeEditTaskComponent())

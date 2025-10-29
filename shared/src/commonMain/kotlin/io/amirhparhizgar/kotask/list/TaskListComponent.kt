@@ -1,15 +1,18 @@
 package io.amirhparhizgar.kotask.list
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.router.items.Items
+import com.arkivanov.decompose.router.items.ItemsNavigation
+import com.arkivanov.decompose.router.items.LazyChildItems
+import com.arkivanov.decompose.router.items.childItems
+import com.arkivanov.decompose.router.items.setItems
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.essenty.lifecycle.doOnStart
 import com.arkivanov.essenty.lifecycle.doOnStop
-import io.amirhparhizgar.kotask.FakeTaskItemComponent
 import io.amirhparhizgar.kotask.Task
 import io.amirhparhizgar.kotask.TaskItemComponent
-import io.amirhparhizgar.kotask.taskoperation.FakeTaskOperationComponent
+import io.amirhparhizgar.kotask.TaskItemConfiguration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -17,8 +20,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalDecomposeApi::class)
 interface TaskListComponent {
-    val items: Value<List<TaskItemComponent>>
+    val items: LazyChildItems<TaskItemConfiguration, TaskItemComponent>
 
     interface Factory {
         fun create(
@@ -28,6 +32,7 @@ interface TaskListComponent {
     }
 }
 
+@OptIn(ExperimentalDecomposeApi::class)
 class DefaultTaskListComponent(
     componentContext: ComponentContext,
     private val repo: TaskRepository,
@@ -36,17 +41,28 @@ class DefaultTaskListComponent(
 ) : TaskListComponent,
     ComponentContext by componentContext {
     private val coroutineScope = componentCoroutineScope()
-    private val _items: MutableValue<List<TaskItemComponent>> = MutableValue(emptyList())
-    override val items: Value<List<TaskItemComponent>> = _items
+
+    private val navigation = ItemsNavigation<TaskItemConfiguration>()
+
+    override val items: LazyChildItems<TaskItemConfiguration, TaskItemComponent> =
+        childItems(
+            source = navigation,
+            serializer = null,
+            initialItems = { Items(items = emptyList()) },
+        ) { configuration, context ->
+            taskItemFactory.create(
+                task = configuration.task,
+                onEdit = { onEditRequested(configuration.task.id) }
+            )
+        }
 
     init {
         var job: Job? = null
         lifecycle.doOnStart {
             job =
                 coroutineScope.launch {
-                    repo.taskStream.collect {
-                        _items.value =
-                            it.map { t -> taskItemFactory.create(t, { onEditRequested(t.id) }) }
+                    repo.taskStream.collect { tasks ->
+                        navigation.setItems { tasks.map { t -> TaskItemConfiguration(t) } }
                     }
                 }
         }
@@ -78,10 +94,24 @@ fun ComponentContext.componentCoroutineScope(): CoroutineScope {
     return scope
 }
 
+@OptIn(ExperimentalDecomposeApi::class)
 class FakeTaskListComponent(
-    override val items: MutableValue<List<TaskItemComponent>>,
+    override val items: LazyChildItems<TaskItemConfiguration, TaskItemComponent>,
 ) : TaskListComponent {
     constructor(
-        items: List<Task>,
-    ) : this(MutableValue(items.map { FakeTaskItemComponent(it, FakeTaskOperationComponent()) }))
+        componentContext: ComponentContext,
+        itemList: List<Task>,
+        taskItemFactory: TaskItemComponent.Factory
+    ) : this(
+        items = componentContext.childItems(
+            source = ItemsNavigation<TaskItemConfiguration>(),
+            serializer = null,
+            initialItems = { Items(items = itemList.map { TaskItemConfiguration(it) }) },
+        ) { configuration: TaskItemConfiguration, context: ComponentContext ->
+            taskItemFactory.create(
+                task = configuration.task,
+                onEdit = { }
+            )
+        }
+    )
 }

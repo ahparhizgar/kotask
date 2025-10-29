@@ -40,7 +40,11 @@ class TaskListOperationsIntegrationTest : BehaviorSpec({
         val firstTask = component
             .items
             .value
+            .items
             .first()
+            .let {
+                component.items[it]
+            }
 
         When("task is marked as done") {
             firstTask.setDone(true).join()

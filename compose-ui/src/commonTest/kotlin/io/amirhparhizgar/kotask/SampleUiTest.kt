@@ -7,7 +7,6 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
 import io.amirhparhizgar.kotask.list.FakeTaskRepository
-import io.amirhparhizgar.kotask.taskoperation.DefaultTaskOperationComponent
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -26,17 +25,12 @@ class SampleUiTest {
                                 repo = repository,
                                 taskItemFactory =
                                     DefaultTaskItemComponent.Factory(
-                                        taskOperationComponentFactory = DefaultTaskOperationComponent.Factory(
-                                            repository = repository,
-                                        ),
+                                        taskRepository = repository,
                                     ),
                             ),
                         editComponentFactory =
                             DefaultEditTaskComponent.Factory(
                                 repository = repository,
-                                taskOperationComponentFactory = DefaultTaskOperationComponent.Factory(
-                                    repository = repository,
-                                ),
                             ),
                         addComponentFactory = DefaultAddTaskComponent.Factory(repository = repository),
                     )

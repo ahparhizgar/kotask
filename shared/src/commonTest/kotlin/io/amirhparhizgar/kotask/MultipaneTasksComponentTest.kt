@@ -5,7 +5,6 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
 import io.amirhparhizgar.kotask.list.FakeTaskRepository
-import io.amirhparhizgar.kotask.taskoperation.DefaultTaskOperationComponent
 import io.amirhparhizgar.kotask.test.util.MainDispatcherExtension
 import io.amirhparhizgar.kotask.test.util.createComponentContext
 import io.kotest.assertions.withClue
@@ -36,15 +35,10 @@ class MultipaneTasksComponentTest : BehaviorSpec({
             listComponentFactory =
                 DefaultTaskListComponent.Factory(
                     repo = repository,
-                    taskItemFactory = DefaultTaskItemComponent.Factory(
-                        DefaultTaskOperationComponent.Factory(repository)
-                    )
+                    taskItemFactory = DefaultTaskItemComponent.Factory(taskRepository = repository)
                 ),
             editComponentFactory =
-                DefaultEditTaskComponent.Factory(
-                    repository = repository,
-                    taskOperationComponentFactory = DefaultTaskOperationComponent.Factory(repository = repository),
-                ),
+                DefaultEditTaskComponent.Factory(repository = repository),
             addComponentFactory = DefaultAddTaskComponent.Factory(repository = repository),
         )
         lifecycle.resume()

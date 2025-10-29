@@ -1,12 +1,14 @@
 package io.amirhparhizgar.kotask.list
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.items.Items
 import com.arkivanov.decompose.router.items.ItemsNavigation
 import com.arkivanov.decompose.router.items.LazyChildItems
 import com.arkivanov.decompose.router.items.childItems
 import com.arkivanov.decompose.router.items.setItems
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.essenty.lifecycle.doOnStart
 import com.arkivanov.essenty.lifecycle.doOnStop
@@ -51,6 +53,7 @@ class DefaultTaskListComponent(
             initialItems = { Items(items = emptyList()) },
         ) { configuration, context ->
             taskItemFactory.create(
+                context = DefaultComponentContext(LifecycleRegistry()),
                 task = configuration.task,
                 onEdit = { onEditRequested(configuration.task.id) }
             )
@@ -109,6 +112,7 @@ class FakeTaskListComponent(
             initialItems = { Items(items = itemList.map { TaskItemConfiguration(it) }) },
         ) { configuration: TaskItemConfiguration, context: ComponentContext ->
             taskItemFactory.create(
+                context = DefaultComponentContext(LifecycleRegistry()),
                 task = configuration.task,
                 onEdit = { }
             )

@@ -8,8 +8,6 @@ import io.amirhparhizgar.kotask.DefaultTaskItemComponent
 import io.amirhparhizgar.kotask.EditTaskComponent
 import io.amirhparhizgar.kotask.MultiPaneTasksComponent
 import io.amirhparhizgar.kotask.TaskItemComponent
-import io.amirhparhizgar.kotask.taskoperation.DefaultTaskOperationComponent
-import io.amirhparhizgar.kotask.taskoperation.TaskOperationComponent
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
@@ -27,9 +25,6 @@ val TaskListModule =
 
         factoryOf(DefaultTaskItemComponent::Factory)
             .bind<TaskItemComponent.Factory>()
-
-        factoryOf(DefaultTaskOperationComponent::Factory)
-            .bind<TaskOperationComponent.Factory>()
 
         factoryOf(DefaultAddTaskComponent::Factory)
             .bind<AddTaskComponent.Factory>()

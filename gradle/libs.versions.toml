@@ -3,7 +3,7 @@
 previewScanner = "0.7.1"
 kotlinxDatetime = "0.6.2"
 project = "1.0.0"
-kotlin = "2.0.0"
+kotlin = "2.1.0"
 agp = "8.2.0"
 jvmTarget = "11"
 
@@ -14,7 +14,7 @@ android-targetSdk = "34"
 compose-jetbrains = "1.9.1"
 
 androidx-activityCompose = "1.11.0"
-kotest = "5.9.1"
+kotest = "6.0.4"
 decompose = "3.4.0"
 essenty = "2.1.0"
 coroutines = "1.10.1"

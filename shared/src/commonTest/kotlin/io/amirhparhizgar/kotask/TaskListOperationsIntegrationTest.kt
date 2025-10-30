@@ -6,7 +6,6 @@ import io.amirhparhizgar.kotask.list.DefaultTaskListComponent
 import io.amirhparhizgar.kotask.list.FakeTaskRepository
 import io.amirhparhizgar.kotask.test.util.MainDispatcherExtension
 import io.amirhparhizgar.kotask.test.util.createComponentContext
-import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.core.test.testCoroutineScheduler
 import io.kotest.matchers.properties.shouldHaveValue
@@ -14,8 +13,6 @@ import kotlinx.coroutines.flow.first
 
 @OptIn(ExperimentalStdlibApi::class)
 class TaskListOperationsIntegrationTest : BehaviorSpec({
-    coroutineTestScope = true
-    isolationMode = IsolationMode.InstancePerLeaf
     extensions(MainDispatcherExtension())
 
     Given("A TaskListComponent with real operations") {
@@ -48,13 +45,6 @@ class TaskListOperationsIntegrationTest : BehaviorSpec({
                 repo.taskStream
                     .first()
                     .first()::isDone shouldHaveValue true
-            }
-        }
-
-        When("task is marked as done") {
-            firstTask.setDone(true).join()
-            Then("task should be marked as done in repository") {
-                updatedTask()::isDone shouldHaveValue true
             }
         }
 

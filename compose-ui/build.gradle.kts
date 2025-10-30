@@ -1,7 +1,4 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
-import org.jetbrains.kotlin.incremental.deleteDirectoryContents
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -22,8 +19,6 @@ kotlin {
                 jvmTarget = libs.versions.jvmTarget.get()
             }
         }
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
     @OptIn(ExperimentalComposeLibrary::class)
@@ -130,9 +125,18 @@ tasks.register("cleanScreenshots") {
             .get() == "true"
         if (isRecord) {
             for (file in listOf("outputs/roborazzi", "intermediates/roborazzi")) {
+                // Use standard File deletion to avoid relying on internal Kotlin incremental APIs
                 fileTree(layout.buildDirectory.dir(file)).dir.run {
                     if (exists()) {
-                        deleteDirectoryContents()
+                        // delete contents but keep the directory itself
+                        listFiles()?.forEach { child ->
+                            try {
+                                if (child.isDirectory) child.deleteRecursively()
+                                else child.delete()
+                            } catch (e: Exception) {
+                                logger.warn("Failed to delete $child: ${'$'}{e.message}")
+                            }
+                        }
                     }
                 }
             }

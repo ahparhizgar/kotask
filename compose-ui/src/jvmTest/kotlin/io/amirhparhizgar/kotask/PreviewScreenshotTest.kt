@@ -27,7 +27,16 @@ class PreviewScreenshotTest : FunSpec({
     val roborazziContext = provideRoborazziContext()
     val isEnabled = roborazziContext.options.taskType.isEnabled()
     previews.forEach { preview ->
-        addTest(testName = TestName(preview.methodName), disabled = !isEnabled, config = null) {
+        addTest(
+            testName = TestName(
+                preview.methodName,
+                focus = false,
+                bang = false,
+                prefix = null,
+                suffix = null,
+                defaultAffixes = false
+            ), disabled = !isEnabled, config = null
+        ) {
             runDesktopComposeUiTest {
                 setContent {
                     preview()

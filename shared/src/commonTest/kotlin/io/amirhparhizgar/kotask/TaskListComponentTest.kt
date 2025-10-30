@@ -15,7 +15,6 @@ import io.kotest.matchers.collections.shouldHaveSize
 @OptIn(ExperimentalStdlibApi::class)
 class TaskListComponentTest : FunSpec({
     extension(MainDispatcherExtension())
-    coroutineTestScope = true
 
     lateinit var component: DefaultTaskListComponent
     lateinit var context: ComponentContext
@@ -35,6 +34,7 @@ class TaskListComponentTest : FunSpec({
     }
 
     testComponent("creates successfully") {
+        println(testCoroutineScheduler)
         component.items.value.items shouldHaveSize 0
     }
 

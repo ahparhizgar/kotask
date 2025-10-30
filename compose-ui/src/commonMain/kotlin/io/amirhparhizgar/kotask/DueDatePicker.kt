@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -30,7 +29,10 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.todayIn
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun DueDateOptions(
     onSelect: (LocalDate) -> Unit,
@@ -75,7 +77,7 @@ fun DueDateOptions(
 }
 
 private fun LocalDate.nextMonday(): LocalDate {
-    val daysUntilMonday = (7 + DayOfWeek.MONDAY.value - dayOfWeek.value) % 7
+    val daysUntilMonday = (7 + DayOfWeek.MONDAY.ordinal - dayOfWeek.ordinal) % 7
     return plus(DatePeriod(days = if (daysUntilMonday == 0) 7 else daysUntilMonday))
 }
 

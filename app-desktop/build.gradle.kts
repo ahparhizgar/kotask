@@ -1,5 +1,3 @@
-@file:Suppress("DSL_SCOPE_VIOLATION")
-
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -9,12 +7,10 @@ plugins {
 }
 
 kotlin {
-    jvm {
-        withJava()
-    }
+    jvm()
 
     sourceSets {
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation(project(":shared"))
                 implementation(project(":compose-ui"))

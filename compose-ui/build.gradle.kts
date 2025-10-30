@@ -1,4 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -15,8 +16,10 @@ kotlin {
 
     androidTarget {
         compilations.all {
-            kotlinOptions {
-                jvmTarget = libs.versions.jvmTarget.get()
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvmTarget.get()))
+                }
             }
         }
     }
@@ -47,7 +50,6 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
                 implementation(libs.kotest.framework)
                 implementation(libs.kotest.assertion)
-                implementation(libs.roborazzi)
             }
         }
 

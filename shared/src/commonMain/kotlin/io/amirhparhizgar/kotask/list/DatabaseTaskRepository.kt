@@ -49,11 +49,13 @@ class DatabaseTaskRepository(
     override suspend fun updateDoneStatus(
         id: String,
         isDone: Boolean,
-    ) = withContext(dispatcher) {
-        databaseFactory.getDatabase().taskDatabaseQueries.updateIsDone(
-            isDone = if (isDone) 1 else 0,
-            id = id.toLong(),
-        )
+    ) {
+        withContext(dispatcher) {
+            databaseFactory.getDatabase().taskDatabaseQueries.updateIsDone(
+                isDone = if (isDone) 1 else 0,
+                id = id.toLong(),
+            )
+        }
     }
 
     override suspend fun get(id: String): Task =

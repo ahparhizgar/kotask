@@ -4,7 +4,7 @@ previewScanner = "0.7.1"
 kotlinxDatetime = "0.7.1"
 project = "1.0.0"
 kotlin = "2.2.21"
-agp = "8.2.0"
+agp = "8.13.2"
 jvmTarget = "21"
 
 android-minSdk = "24"

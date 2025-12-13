@@ -22,11 +22,9 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 21
       - name: Update dependencies
         run: sudo apt-get update
-      - name: Install dependencies
-        run: sudo apt-get install nodejs chromium-browser
       - name: Build
         uses: gradle/gradle-build-action@v2
         with:
@@ -35,3 +33,11 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: jvmTest
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            **/build/reports/tests/**
+          retention-days: 7

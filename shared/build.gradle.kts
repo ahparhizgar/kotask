@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -76,6 +77,14 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+tasks.withType<Test>() {
+    testLogging {
+        events("PASSED", "FAILED", "SKIPPED")
+        exceptionFormat = FULL
+        showStandardStreams = true
     }
 }
 

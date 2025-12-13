@@ -72,7 +72,7 @@ class SampleTestWrong : BehaviorSpec({
 
         `when`("second when") {
             myVar += 1
-            then("second then") {
+            then("!second then") {
                 myVar shouldBe 2
                 println(logs)
             }
